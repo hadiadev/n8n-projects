@@ -1,56 +1,134 @@
-# n8n-projects
-i add four project in this repository that you can downloads and customized according you.
+n8n Projects Repository
 
-1. PRACTICE HUNTER (web crawler)
-textPRACTICE HUNTER – UK GP Practice Intelligence Engine (n8n)
-An advanced web-crawling + AI-powered workflow that discovers hidden decision-maker contacts (Practice Managers, GPs, ICB/PCN emails, phone numbers) from NHS GP surgery websites.  
-Uses Google Gemini to intelligently detect staff/contact pages → scrapes them → extracts 12+ high-value fields (emails, phones, system mentions, pain signals, social links, etc.) → outputs clean rows ready for outreach.  
-Perfect for healthcare SaaS sales, appointment booking automation, or NHS lead generation.
+This repository contains four fully-automated n8n workflows that you can download, customize, and use for your business, agency, or automation needs.
 
-How to customize for your needs:
-Change the source Google Sheet ID (first node) to your own master list of GP URLs/postcodes.
-Update the AI Agent prompt to look for different roles (e.g., “Dental Practice Owner”, “Care Home Manager”) or different fields.
-Replace “UK GP” keywords with your target industry (dentists, vets, pharmacies, private clinics, etc.).
-Adjust the output Google Sheet columns or connect to your CRM (HubSpot, Salesforce, etc.) instead.
+Each workflow is modular, editable, and powered by AI (Gemini / OpenAI / Firecrawl).
 
+1. PRACTICE HUNTER (Web Crawler)
+UK GP Practice Intelligence Engine (n8n)
 
-2. facebook post generator.json
-Description:
-textFacebook Post Generator – AI-Powered Social Content Automation (n8n)
-Fully automated workflow that creates ready-to-post Facebook content for GP Triage (or any healthcare/tech brand).  
-Generates human-written captions, posts, hashtags + realistic AI images (Gemini 2.0 Flash) → uploads to Google Drive → posts directly to your Facebook Page via Graph API.  
-One trigger → multiple polished, on-brand posts in seconds.
+An advanced web-crawling + AI-powered intelligence workflow that discovers hidden decision-maker contacts (Practice Managers, GPs, PCN/ICB emails, phone numbers) from NHS GP websites.
 
-How to customize:
-Change the “topic” field in the first Set node (e.g., “staff burnout”, “missed appointments”, “EHR integration”).
-Replace the Facebook Page ID and credentials with your own page.
-Switch platform to Instagram/LinkedIn by changing the final posting node (or duplicate the workflow).
-Use your own brand name, website, and tone in the AI prompt.
-Point the Google Sheet to your content calendar.
+What it does:
 
+Uses Gemini AI to detect staff/contact pages automatically
 
-3. website Lead Generation from Google Search and Maps.json
-Description:
-textLocal Lead Generator – Google Search + Maps Scraper (n8n)
-Smart lead generation workflow that takes any search query (e.g., “dentist Manchester”, “veterinary clinic Bristol”) and returns real business websites + contact details scraped from Google Search and Google Maps.  
-Deduplicates, filters junk, extracts emails/phones when available, and appends clean rows to Google Sheets. Ideal for local SEO agencies, healthcare sales teams, or any location-based outreach.
+Scrapes website content
 
-How to customize:
-Connect to the built-in chat trigger or replace with webhook/schedule.
-Change the target Google Sheet.
-Modify filters (e.g., only .co.uk domains, exclude nhs.uk, require “@” in results).
-Add extra parsing steps for different industries (e.g., extract “opening hours”, “services offered”).
+Extracts 12+ high-value outreach fields
 
+Generates structured, clean output rows
 
-4. landing page to ads agent.json
-GitHub Description:
-textLanding Page → Ads Agent – Instant Localized Ad Creative Generator (n8n)
-Give it any landing page URL + target locations → it scrapes the page with Firecrawl → analyzes brand tone, colors, and offer → generates 3–10 location-specific Facebook/Instagram ad variations (copy + photorealistic images via Gemini) → auto-posts or saves to Sheets/Drive.  
-Zero manual creative work. Perfect for performance marketers running geo-targeted campaigns.
+Ideal for healthcare SaaS, automations, and NHS lead generation
 
-How to customize:
-Update the first Set node with your own landing page URL and target cities.
-Change number of variations and aspect ratio (1:1, 4:5, 9:16, etc.).
-Replace the Facebook Graph API node with Meta Ads Manager API if you want to create actual ad campaigns (not just organic posts).
-Swap Gemini image generation for Flux, DALL·E 3, or SD3 if preferred.
-Add your own reference hero image (via “Analyze an image” branch) to force visual consistency.
+How to Customize:
+
+Replace Google Sheet ID with your own list of URLs/Postcodes
+
+Modify roles in the AI prompt (Dentists, Care Homes, Vets, Private Clinics, etc.)
+
+Change industry keywords
+
+Send results directly into HubSpot / Salesforce / Airtable
+
+Add more fields like “Services Offered”, “Opening Hours”, etc.
+
+2. Facebook Post Generator (AI Social Content Automation)
+Creates Human-Quality Facebook Posts Automatically
+
+Generates ready-to-publish Facebook content using AI: captions, posts, hashtags, and realistic images.
+Uploads visuals to Drive and publishes automatically via Facebook Graph API.
+
+What it does:
+
+AI-generated captions + hashtags + image prompts
+
+Image creation using Gemini 2.0 Flash
+
+Uploads media to Google Drive
+
+Posts automatically to your Facebook Page
+
+One workflow → multiple branded posts instantly
+
+How to Customize:
+
+Edit “topic” in the first Set node (burnout, triage, EHR, etc.)
+
+Replace Facebook Page ID + access token
+
+Change posting destination to Instagram, LinkedIn, Twitter
+
+Add your brand voice, tone, URL
+
+Connect to Google Sheet content calendar
+
+3. Website Lead Generation (Google Search + Maps Scraper)
+Local Lead Generator using Google Search & Google Maps
+
+Takes any search query (e.g., “dentist London”, “vets Birmingham”) and returns real business websites + contact data.
+
+What it does:
+
+Scrapes results from Google Search
+
+Scrapes business info from Google Maps
+
+Extracts websites, phones, emails
+
+Removes duplicates
+
+Sends clean rows to Google Sheets
+
+Ideal for:
+
+Local SEO agencies
+
+Healthcare B2B outreach
+
+Local business lead generation
+
+Geo-targeted outbound campaigns
+
+How to Customize:
+
+Change trigger to webhook, schedule, or manual
+
+Update Google Sheet target
+
+Add filtering rules (only .co.uk, exclude junk links, require emails)
+
+Add extraction for additional fields (services, opening hours, reviews)
+
+4. Landing Page → Ads Agent
+Instant Localized Ad Creative Generator
+
+You provide a landing page URL + target cities → the workflow generates complete localized ad packages (copy + images).
+
+What it does:
+
+Scrapes landing page with Firecrawl
+
+Analyzes brand tone, colors, messaging
+
+Creates multiple geo-targeted ad variations
+
+Generates photorealistic images via Gemini
+
+Saves to Sheets/Drive or posts automatically
+
+Zero manual ad creation needed
+
+How to Customize:
+
+Update landing page URL + list of locations
+
+Increase/decrease number of ad variations
+
+Change image aspect ratio (1:1, 4:5, 9:16)
+
+Swap Gemini image generation with Flux, DALL·E 3, or SD3
+
+Replace Graph API with Meta Ads Manager API for full ads publishing
+
+Add a reference hero image for consistent branding
