@@ -1,10 +1,10 @@
-n8n Projects Repository
+#n8n Projects Repository
 
 This repository contains four fully-automated n8n workflows that you can download, customize, and use for your business, agency, or automation needs.
 
 Each workflow is modular, editable, and powered by AI (Gemini / OpenAI / Firecrawl).
 
-1. PRACTICE HUNTER (Web Crawler)
+#1. PRACTICE HUNTER (Web Crawler)
 UK GP Practice Intelligence Engine (n8n)
 
 An advanced web-crawling + AI-powered intelligence workflow that discovers hidden decision-maker contacts (Practice Managers, GPs, PCN/ICB emails, phone numbers) from NHS GP websites.
