@@ -1,10 +1,10 @@
-#n8n Projects Repository
+>>>n8n Projects Repository
 
 This repository contains four fully-automated n8n workflows that you can download, customize, and use for your business, agency, or automation needs.
 
 Each workflow is modular, editable, and powered by AI (Gemini / OpenAI / Firecrawl).
 
-#1. PRACTICE HUNTER (Web Crawler)
+>>>>1. PRACTICE HUNTER (Web Crawler)
 UK GP Practice Intelligence Engine (n8n)
 
 An advanced web-crawling + AI-powered intelligence workflow that discovers hidden decision-maker contacts (Practice Managers, GPs, PCN/ICB emails, phone numbers) from NHS GP websites.
@@ -33,7 +33,7 @@ Send results directly into HubSpot / Salesforce / Airtable
 
 Add more fields like “Services Offered”, “Opening Hours”, etc.
 
-2. Facebook Post Generator (AI Social Content Automation)
+>>>>2. Facebook Post Generator (AI Social Content Automation)
 Creates Human-Quality Facebook Posts Automatically
 
 Generates ready-to-publish Facebook content using AI: captions, posts, hashtags, and realistic images.
@@ -63,7 +63,7 @@ Add your brand voice, tone, URL
 
 Connect to Google Sheet content calendar
 
-3. Website Lead Generation (Google Search + Maps Scraper)
+>>>>3. Website Lead Generation (Google Search + Maps Scraper)
 Local Lead Generator using Google Search & Google Maps
 
 Takes any search query (e.g., “dentist London”, “vets Birmingham”) and returns real business websites + contact data.
@@ -100,7 +100,7 @@ Add filtering rules (only .co.uk, exclude junk links, require emails)
 
 Add extraction for additional fields (services, opening hours, reviews)
 
-4. Landing Page → Ads Agent
+>>>>4. Landing Page → Ads Agent
 Instant Localized Ad Creative Generator
 
 You provide a landing page URL + target cities → the workflow generates complete localized ad packages (copy + images).
