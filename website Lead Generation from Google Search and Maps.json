@@ -1,0 +1,1687 @@
+{
+  "name": "website Lead Generation from Google Search and Maps",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "79d732fc-8a88-4a84-8a18-8cc9b689b3c0",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json[\"Email ID\"] }}",
+              "rightValue": ""
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "56afdf13-6a6d-49bd-86e3-6e89a7d5342c",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        -400,
+        80
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo",
+          "mode": "list",
+          "cachedResultName": "search and data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gid=0",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JvDSWt5K1Cc9wCd36MADVbh4tu4KdPAzVlMUstv_ou8/edit#gid=0",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "business name": "={{ $('Loop for Multiple Page Search').item.json['Business Name'] }}",
+            "primery email": "={{ $('Loop for Multiple Page Search').item.json['Email ID'] }}",
+            "contact number": "={{ $('Loop for Multiple Page Search').item.json['Contact Number'] }}",
+            "ulrs": "={{ $('Loop for Multiple Page Search').item.json.URL }}",
+            "description": "={{ $('Loop for Multiple Page Search').item.json.Description }}",
+            "type": "={{ $('Loop for Multiple Page Search').item.json.Type }}",
+            "socials": "={{ $('Loop for Multiple Page Search').item.json.Socials }}",
+            "search query": "={{ $('When chat message received').item.json.chatInput }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "search query",
+              "displayName": "search query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "business name",
+              "displayName": "business name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "primery email",
+              "displayName": "primery email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rest email",
+              "displayName": "rest email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "contact number",
+              "displayName": "contact number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ulrs",
+              "displayName": "ulrs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "socials",
+              "displayName": "socials",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "3923a504-ab66-48af-b74c-5f4f6ad15bf9",
+      "name": "Append row in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        160,
+        -16
+      ],
+      "typeVersion": 4.7,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Array of start indices for pagination\nconst starts = [ 1, 11, 21];\n\n// Create an array of items, one per start value\nreturn starts.map(s => ({ json: { start: s } }));\n"
+      },
+      "id": "461c5152-fbcc-4988-a1d9-335b5600b0a1",
+      "name": "Setting Pagination",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -448,
+        -272
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8d914527-55f6-4592-b802-feb670b6c49c",
+      "name": "Loop for Multiple Page Search",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        -96,
+        -320
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "AIzaSyAPUB2xVjDsq_A7js50feAS3BPtuJPSuRI"
+            },
+            {
+              "name": "cx",
+              "value": "b64cc7122aeda44e2"
+            },
+            {
+              "name": "q",
+              "value": "={{ $('When chat message received').item.json.chatInput }}"
+            },
+            {
+              "name": "cr",
+              "value": "countryUS"
+            },
+            {
+              "name": "gl",
+              "value": "us"
+            },
+            {
+              "name": "lr",
+              "value": "lang_en"
+            },
+            {
+              "name": "start",
+              "value": "={{ $json.start }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d6454891-1955-4c0e-bacb-7c2a43b82dee",
+      "name": "Custom Google Search API",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        352,
+        -336
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "jsCode": "// Each input item from HTTP Request node\nreturn $input.all().map(item => {\n  // Extract only the 'items' array from the API response\n  const results = item.json.items || [];\n\n  // Return each search result as a separate item\n  return results.map(r => ({\n    json: r\n  }));\n}).flat();\n"
+      },
+      "id": "0d9558dc-f051-468d-8665-0c0f26b050bd",
+      "name": "Flatten Output Items",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        832,
+        -304
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "// For each input item (already a search result)\nreturn $input.all().map(item => {\n    const r = item.json;\n    const metatags = (r.pagemap && r.pagemap.metatags && r.pagemap.metatags[0]) || {};\n\n    return {\n        json: {\n            \"Business Name\": r.title || null,\n            \"Email ID\": metatags['og:email'] || null,\n            \"Contact Number\": metatags['og:phone_number'] || null,\n            \"URL\": r.link || null,\n            \"Description\": r.snippet || metatags['og:description'] || null,\n            \"Type\": metatags['og:type'] || null,\n            \"Socials\": metatags['og:see_also'] || null\n        }\n    };\n});\n"
+      },
+      "id": "bd5ec721-1e0a-492d-ae72-11db0ec265a3",
+      "name": "Information Extraction",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1152,
+        -480
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "=URL",
+        "options": {}
+      },
+      "id": "d79b1fac-46cf-46ec-84f1-d52e7a4bf529",
+      "name": "Remove Duplicates From Searches",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "position": [
+        1392,
+        -272
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8b1aaa05-4904-4312-8547-6e3ea5a8dd30",
+      "name": "Remove Duplicates",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "position": [
+        240,
+        720
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5be77ddf-5fed-4d35-a80c-132dee74c575",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        496,
+        688
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json.data\nconst regex = /https?:\\/\\/[^\\/\\s\"'>]+/g\nconst websites = input.match(regex)\nreturn websites.map(website => ({json:{website}}))"
+      },
+      "id": "1e3d735c-2030-4859-8db5-b4ac8b6ba0f7",
+      "name": "Extract URLs",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -224,
+        704
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "url": "=https://www.google.com/maps/search/{{ $json.searchQuery }}",
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "id": "1ae335be-bc40-40fc-9024-13a9314263bd",
+      "name": "Scrape Google Maps",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -448,
+        720
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "bf0a5053-9660-457c-9581-964793bb6d7d",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              },
+              "leftValue": "={{ $json.website }}",
+              "rightValue": "schema"
+            },
+            {
+              "id": "9110b9e0-12aa-45cc-bde0-9eda8c10970e",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              },
+              "leftValue": "={{ $json.website }}",
+              "rightValue": "google"
+            },
+            {
+              "id": "fb9b6ed6-96a5-4560-ab10-b8a4b9a61a2b",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              },
+              "leftValue": "={{ $json.website }}",
+              "rightValue": "gg"
+            },
+            {
+              "id": "10500c0b-cdbd-4816-aba3-df60d69845dc",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              },
+              "leftValue": "={{ $json.website }}",
+              "rightValue": "gstatic"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "48ddf9e4-7621-4a1f-8230-c9bf445ca031",
+      "name": "Filter Google URLs",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        16,
+        720
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "2a6a20ba-c785-4dce-a14f-3a962329f9dc",
+      "name": "Wait2",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        880,
+        704
+      ],
+      "webhookId": "19cc6ed4-4fe7-485b-b879-c679e4b3374d",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo",
+          "mode": "list",
+          "cachedResultName": "search and data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "8bb5ea47-7cf9-440f-b5b5-5212895653ff",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        -576,
+        304
+      ],
+      "typeVersion": 4.7,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "b7e04d14-b26b-4107-b61f-4ba005672b90",
+      "name": "Remove Duplicates3",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "position": [
+        528,
+        1152
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo",
+          "mode": "list",
+          "cachedResultName": "search and data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gid=0",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JvDSWt5K1Cc9wCd36MADVbh4tu4KdPAzVlMUstv_ou8/edit#gid=0",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "search query",
+              "displayName": "search query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "business name",
+              "displayName": "business name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "primery email",
+              "displayName": "primery email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rest email",
+              "displayName": "rest email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "contact number",
+              "displayName": "contact number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ulrs",
+              "displayName": "ulrs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "socials",
+              "displayName": "socials",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "faa68fa3-50e7-4d68-8adb-5badd6b1beae",
+      "name": "Append row in sheet2",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1008,
+        1184
+      ],
+      "typeVersion": 4.7,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8d71b7ee-ad2c-488f-9707-5d70aae92cdf",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        -80,
+        176
+      ],
+      "typeVersion": 3,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.URL }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "3524ba24-6044-4251-b295-cb4734d3a6de",
+      "name": "Scrape Site2",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        256,
+        208
+      ],
+      "typeVersion": 4.2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "8cade239-5400-45e5-923d-5bccb689e523",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.data }}",
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7b7c2030-14d1-4cca-9b49-2ef97b3b89e7",
+      "name": "If Site scrapped",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        560,
+        208
+      ],
+      "typeVersion": 2.2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get current batch of items\nconst items = $input.all();\n\n// Regex patterns\nconst emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}/g;\nconst phoneRegex = /(?:\\+?\\d{1,2}\\s?)?(?:\\(\\d{3}\\)|\\d{3})[-.\\s]?\\d{3}[-.\\s]?\\d{4}/g;\nconst socialRegex = /(https?:\\/\\/(?:www\\.)?(?:facebook|twitter|instagram|linkedin|youtube)\\.com\\/[^\\s\"'<>]+)/gi;\n\n// Helper to remove duplicates\nfunction uniqueArray(arr) {\n    return arr ? [...new Set(arr)] : [];\n}\n\n// Function to extract data\nfunction extractFromHTML(html) {\n    const emails = uniqueArray(html.match(emailRegex));\n    const phones = uniqueArray(html.match(phoneRegex));\n    const socials = uniqueArray(html.match(socialRegex));\n\n    return {\n        email1: emails.length > 0 ? emails[0] : null,\n        email2: emails.length > 1 ? emails.slice(1).join(\", \") : null, // all remaining emails\n        phone: phones.length > 0 ? phones.join(\", \") : null, // string instead of array\n        socials: socials.length > 0 ? socials.join(\", \") : null // string instead of array\n    };\n}\n\n// Process each item\nconst output = items.map(item => {\n    const htmlData = item.json.data || \"\"; // assuming HTML content is in 'data'\n    const extracted = extractFromHTML(htmlData);\n\n    return { json: extracted };\n});\n\nreturn output;\n"
+      },
+      "id": "0f8ed469-9a31-447e-94c8-6c9f4d0b8e6f",
+      "name": "Extract Required Fields",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        800,
+        192
+      ],
+      "typeVersion": 2,
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a4dec390-76fa-42b3-acaf-93b2449aaa3f",
+              "name": "Phone",
+              "type": "string",
+              "value": "={{ $json.phone }}"
+            },
+            {
+              "id": "78749360-6d15-42d1-8017-ec626eaeb24b",
+              "name": "Social",
+              "type": "string",
+              "value": "={{ $json.socials }}"
+            },
+            {
+              "id": "f90b4f19-bc8f-4638-96ba-458c0cafe7c5",
+              "name": "Email1",
+              "type": "string",
+              "value": "={{ $json.email1 }}"
+            },
+            {
+              "id": "507b5231-f31b-4587-82dd-eb4c03e44bcd",
+              "name": "Name",
+              "type": "string",
+              "value": "={{ $('Loop Over Items1').item.json[\"Business Name\"] }}"
+            },
+            {
+              "id": "722bf218-e8b5-4e69-8602-bf1b858abc44",
+              "name": "URL",
+              "type": "string",
+              "value": "={{ $('Loop Over Items1').item.json.URL }}"
+            },
+            {
+              "id": "c42325ba-b870-4296-af68-833df670497d",
+              "name": "Type",
+              "type": "string",
+              "value": "={{ $('Loop Over Items1').item.json.Type }}"
+            },
+            {
+              "id": "6b4ec29b-31da-429b-bd60-89a6c0705c48",
+              "name": "Description",
+              "type": "string",
+              "value": "={{ $('Loop Over Items1').item.json.Description }}"
+            },
+            {
+              "id": "265bd1d6-6a89-42ea-b7da-994715e3806d",
+              "name": "Email 2",
+              "type": "string",
+              "value": "={{ $json.email2 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "de204b73-f407-4374-9809-8f7f237917c7",
+      "name": "Set All Fields",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1088,
+        192
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f20a894e-3505-404b-a2f8-8648bbed8301",
+              "name": "URL",
+              "type": "string",
+              "value": "={{ $json.URL }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "411b1fe0-daeb-4da9-b696-c2114af02582",
+      "name": "Set URL for Validation",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -352,
+        304
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "['URL']",
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input1",
+        "options": {
+          "fuzzyCompare": true
+        }
+      },
+      "id": "5bb67df8-0483-482b-b7d6-05ea2fc41d67",
+      "name": "Not Duplicate Search Results",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        -64,
+        480
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "fc7625cf-225d-4d8e-8dd2-474bd65b6d8d",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.URL }}",
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3be9a58e-86a7-4748-b5d1-32cc35e06319",
+      "name": "If Site Exists",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        240,
+        480
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "ce6a31cc-e1ac-4786-8300-c3d7553598fe",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              },
+              "leftValue": "={{ $json.Type }}",
+              "rightValue": "article"
+            },
+            {
+              "id": "89453f8b-f6b7-4c69-bac3-6f10e0a30046",
+              "operator": {
+                "name": "filter.operator.equals",
+                "type": "string",
+                "operation": "equals"
+              },
+              "leftValue": "={{ $json.Type }}",
+              "rightValue": "blog"
+            },
+            {
+              "id": "e3d4cbe5-549a-4f17-b551-59e18adae86a",
+              "operator": {
+                "name": "filter.operator.equals",
+                "type": "string",
+                "operation": "equals"
+              },
+              "leftValue": "",
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "id": "154013af-c251-4957-9922-328dbf15e828",
+      "name": "Exclude Articles and Blogs",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        592,
+        480
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "1cdae8ba-51ee-4298-947b-0909dfae0c02",
+      "name": "Remove Duplicates For Sheets",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "position": [
+        960,
+        432
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo",
+          "mode": "list",
+          "cachedResultName": "search and data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gid=0",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JvDSWt5K1Cc9wCd36MADVbh4tu4KdPAzVlMUstv_ou8/edit#gid=0",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "contact number": "={{ $json.Phone }}",
+            "description": "={{ $json.Description }}",
+            "type": "={{ $json.Type }}",
+            "socials": "={{ $json.Social }}",
+            "ulrs": "={{ $json.URL }}",
+            "business name": "={{ $json.Name }}",
+            "primery email": "={{ $json.Email1 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "search query",
+              "displayName": "search query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "business name",
+              "displayName": "business name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "primery email",
+              "displayName": "primery email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rest email",
+              "displayName": "rest email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "contact number",
+              "displayName": "contact number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ulrs",
+              "displayName": "ulrs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "socials",
+              "displayName": "socials",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "386b8688-8712-4761-b333-906ce88c88a1",
+      "name": "Add Search Results in Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1376,
+        400
+      ],
+      "typeVersion": 4.7,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = items[0];\nconst chatInput = item.json.chatInput;\nconst formattedQuery = chatInput.replaceAll(' ', '+');\n\nreturn [{\n  json: {\n    \"searchQuery\": formattedQuery\n  }\n}];"
+      },
+      "id": "304ed193-c87a-468b-8cc3-65ffcc395f25",
+      "name": "Prepare Query for Maps",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -688,
+        704
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.website }}",
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          }
+        }
+      },
+      "id": "254ff0c8-1e31-4f9a-ae37-4f376d90408f",
+      "name": "Scrape Map Sites",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        688,
+        704
+      ],
+      "typeVersion": 4.2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- Safety Check (Guard Clause) ---\nif (!items[0] || !items[0].json || !items[0].json.data) {\n  return [{\n    json: {\n      error: \"Input data from the previous node is missing or in the wrong format.\",\n      businessName: null,\n      description: null,\n      phone: null,\n      socials: null,\n      email1: null,\n      email2: null,\n      URL: null\n    }\n  }];\n}\n\nconst htmlString = items[0].json.data;\n\n// --- Business Name Extraction ---\nlet businessName = \"\";\nconst jsonLdRegex = /<script[^>]*type=[\"']?application\\/ld\\+json[\"']?[^>]*>([\\s\\S]*?)<\\/script>/gi;\nconst jsonLdMatches = [...htmlString.matchAll(jsonLdRegex)];\nfor (const match of jsonLdMatches) {\n    try {\n        const jsonContent = JSON.parse(match[1]);\n        if (!businessName) {\n            if (jsonContent.name && (jsonContent['@type'] === 'Dentist' || jsonContent['@type'] === 'Organization')) {\n                businessName = jsonContent.name;\n            } else if (Array.isArray(jsonContent['@graph'])) {\n                for (const item of jsonContent['@graph']) {\n                    if (item.name && (item['@type'] === 'Dentist' || item['@type'] === 'WebSite')) {\n                        businessName = item.name.replace(/ New York New York$/, '').trim();\n                        break;\n                    }\n                }\n            }\n        }\n    } catch (e) { /* Ignore */ }\n}\nif (!businessName) {\n    const ogTitleRegex = /<meta[^>]*property=[\"']?og:title[\"']?[^>]*content=[\"']?([^\"'>]*)[\"']?/i;\n    const ogTitleMatch = htmlString.match(ogTitleRegex);\n    if (ogTitleMatch && ogTitleMatch[1]) {\n        businessName = ogTitleMatch[1].split(/[-|]/)[0].trim();\n    }\n}\nif (!businessName) {\n    const titleRegex = /<title>([\\s\\S]*?)<\\/title>/i;\n    const titleMatch = htmlString.match(titleRegex);\n    if (titleMatch && titleMatch[1]) {\n      businessName = titleMatch[1].split(/[-|]/)[0].trim();\n    }\n}\n\n// --- Other Data Extraction ---\nconst descriptionRegex = /<meta[^>]*name=[\"']?description[\"']?[^>]*content=[\"']?([^\"'>]*)[\"']?/i;\nconst descriptionMatch = htmlString.match(descriptionRegex);\nconst description = descriptionMatch ? descriptionMatch[1].trim() : \"\";\n\nconst phoneRegex = /(?:\\+?1[ -]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}/g;\nconst foundPhones = htmlString.match(phoneRegex) || [];\nconst phoneNumbers = [...new Set(foundPhones)];\n\nfunction findSameAsLinks(obj, links = []) {\n    if (obj === null || typeof obj !== 'object') return links;\n    if (obj.sameAs && Array.isArray(obj.sameAs)) {\n        links.push(...obj.sameAs.filter(item => typeof item === 'string'));\n    }\n    Object.values(obj).forEach(value => {\n        if (typeof value === 'object') findSameAsLinks(value, links);\n    });\n    return links;\n}\nlet jsonLdLinks = [];\nfor (const match of jsonLdMatches) {\n  try {\n    const jsonContent = JSON.parse(match[1]);\n    findSameAsLinks(jsonContent, jsonLdLinks);\n  } catch(e) {/* Ignore */}\n}\nconst socialAnchorRegex = /href=[\"']?(https?:\\/\\/(?:www\\.)?(?:facebook|instagram|twitter|linkedin|yelp|pinterest|plus\\.google)\\.com\\/[^\"'\\s>]+)/gi;\nconst socialAnchorLinks = [...htmlString.matchAll(socialAnchorRegex)].map(match => match[1]);\nconst allSocials = [...jsonLdLinks, ...socialAnchorLinks];\nconst socials = [...new Set(allSocials)];\n\nconst plainTextEmailRegex = /\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b/gi;\nconst plainTextEmails = htmlString.match(plainTextEmailRegex) || [];\nconst mailtoRegex = /href=[\"']?mailto:([^\"'\\?\\s>]+)/gi;\nconst mailtoEmails = [...htmlString.matchAll(mailtoRegex)].map(match => match[1]);\nconst allEmails = [...plainTextEmails, ...mailtoEmails];\nconst emails = [...new Set(allEmails)];\n\n// --- Final Output Formatting ---\nconst socialString = socials.join(', ');\nconst phoneString = phoneNumbers.join(', ');\n\nconst email1 = emails[0] || null;\nconst email2 = emails[1] || null;\n\n// **UPDATED:** Get the URL and add a trailing slash if needed.\nlet websiteUrl = $('Loop Over Items').first().json.website;\nif (websiteUrl && typeof websiteUrl === 'string' && !websiteUrl.endsWith('/')) {\n  websiteUrl += '/';\n}\n\nreturn [{\n  json: {\n    businessName,\n    description,\n    phone: phoneString,\n    socials: socialString,\n    email1,\n    email2,\n    URL: websiteUrl,\n  }\n}];"
+      },
+      "id": "16f26def-5ab7-4b50-95a8-0cd297350e60",
+      "name": "Extract Information",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1088,
+        688
+      ],
+      "typeVersion": 2,
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f20a894e-3505-404b-a2f8-8648bbed8301",
+              "name": "URL",
+              "type": "string",
+              "value": "={{ $json.URL }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "79160c48-95da-4886-8152-7ebf5a37f786",
+      "name": "Set URL Validaiton",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -432,
+        1008
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "['URL']",
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input1",
+        "options": {
+          "fuzzyCompare": true
+        }
+      },
+      "id": "32004dbe-c1a0-49a2-ad4d-e4763bd3a66f",
+      "name": "Validating Unique Results",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        -128,
+        1056
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "fc7625cf-225d-4d8e-8dd2-474bd65b6d8d",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.URL }}",
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "703b973b-2df4-4271-8f35-1b869b47cf31",
+      "name": "If Site exists",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        144,
+        1104
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo",
+          "mode": "list",
+          "cachedResultName": "search and data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2yJezOtchX2sMe15sdZKOd9V9xMDRFssBBZFounTzo/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "9e222f7a-614c-4deb-8b1c-5fedce21b869",
+      "name": "Get row(s) in sheet1",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        -720,
+        944
+      ],
+      "typeVersion": 4.7,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there!\nMy name is Haddy. How can I assist you today?",
+        "options": {}
+      },
+      "id": "f0b46dd6-7b87-4d26-9c6a-11310000341d",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        -1248,
+        192
+      ],
+      "webhookId": "7058453f-20ea-4f70-b9b8-0e4063a52ad2",
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1600,
+        288
+      ],
+      "id": "5b5b2cf4-db24-46a4-be6a-4e781b4417f3",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setting Pagination": {
+      "main": [
+        [
+          {
+            "node": "Loop for Multiple Page Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten Output Items": {
+      "main": [
+        [
+          {
+            "node": "Information Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extraction": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates From Searches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Custom Google Search API": {
+      "main": [
+        [
+          {
+            "node": "Flatten Output Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop for Multiple Page Search": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Custom Google Search API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates From Searches": {
+      "main": [
+        [
+          {
+            "node": "Loop for Multiple Page Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Extract Information",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract URLs": {
+      "main": [
+        [
+          {
+            "node": "Filter Google URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Site2": {
+      "main": [
+        [
+          {
+            "node": "If Site scrapped",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Site Exists": {
+      "main": [
+        [
+          {
+            "node": "Exclude Articles and Blogs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Site exists": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set All Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Validating Unique Results",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Scrape Map Sites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Site scrapped": {
+      "main": [
+        [
+          {
+            "node": "Extract Required Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Not Duplicate Search Results",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Scrape Site2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Map Sites": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Google URLs": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates3": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Google Maps": {
+      "main": [
+        [
+          {
+            "node": "Extract URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set URL Validaiton": {
+      "main": [
+        [
+          {
+            "node": "Validating Unique Results",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Extract Information": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Set URL for Validation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Query for Maps": {
+      "main": [
+        [
+          {
+            "node": "Scrape Google Maps",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set URL for Validation": {
+      "main": [
+        [
+          {
+            "node": "Not Duplicate Search Results",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Extract Required Fields": {
+      "main": [
+        [
+          {
+            "node": "Set All Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validating Unique Results": {
+      "main": [
+        [
+          {
+            "node": "If Site exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Exclude Articles and Blogs": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates For Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Not Duplicate Search Results": {
+      "main": [
+        [
+          {
+            "node": "If Site Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates For Sheets": {
+      "main": [
+        [
+          {
+            "node": "Add Search Results in Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Search Results in Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Set URL Validaiton",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare Query for Maps",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Setting Pagination",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fb742dc2-7ccc-419c-a851-891896d65d26",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8d877f24dab153378d43f60d28c7e980ae4e85434aa4b7d3954a00e8675512c2"
+  },
+  "id": "F63acj5UkJtYb4cB",
+  "tags": [
+    {
+      "createdAt": "2025-11-14T05:25:24.174Z",
+      "updatedAt": "2025-11-14T05:25:24.174Z",
+      "id": "B7NchYQNyjiIjmrX",
+      "name": "AI Internal"
+    }
+  ]
+}

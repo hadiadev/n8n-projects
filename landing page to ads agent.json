@@ -1,0 +1,1827 @@
+{
+  "name": "landing page to ads agent",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f475133a-180a-4093-9f14-f02a26da93ab",
+              "name": "landing_page_url",
+              "value": "https://missrosepk.com/?gad_source=1&gad_campaignid=21489084653&gclid=Cj0KCQjw9obIBhCAARIsAGHm1mRsMNv2C-ikWdsE-4jttQ1hgGdI49NVYUMFzGfxyxob_wWLqge0E98aAoovEALw_wcB",
+              "type": "string"
+            },
+            {
+              "id": "89631967-9ebd-4604-85cc-47ff8296c7f5",
+              "name": "location",
+              "value": "london, atlana, Birmingham",
+              "type": "string"
+            },
+            {
+              "id": "420e6047-7a34-4347-b56e-567eb0b36297",
+              "name": "aspect_ratio",
+              "value": "1:1",
+              "type": "string"
+            },
+            {
+              "id": "b7412dfe-b882-4e70-9d11-ae700348dd26",
+              "name": "ads_variations",
+              "value": "3",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        352,
+        -1312
+      ],
+      "id": "d837b4fe-a55a-493a-98fb-34283678df0f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        -1200
+      ],
+      "id": "e4574247-afff-4378-a32c-e8cad32804f1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "scrape",
+        "url": "={{ $json.landing_page_url }}",
+        "scrapeOptions": {
+          "options": {
+            "formats": {
+              "format": [
+                {
+                  "type": "json",
+                  "prompt": "Extract the following structured information from the webpage content.  Focus only on marketing, offer, and visual data useful for creating ad creatives.  Return the result in valid JSON format with these exact fields:  {   \"brand_name\": \"\",   \"product_or_service\": \"\",   \"headline_or_tagline\": \"\",   \"main_offer\": \"\",   \"key_features_or_benefits\": [],   \"target_audience\": \"\",   \"call_to_action_texts\": [],   \"pricing_or_discount_info\": \"\",   \"product_category\": \"\",   \"visual_style_description\": \"\",   \"tone_or_voice\": \"\",   \"color_palette_or_theme\": \"\",   \"emotion_or_feeling\": \"\",   \"primary_keywords\": [] }"
+                }
+              ]
+            },
+            "onlyMainContent": false,
+            "headers": {}
+          }
+        },
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
+      "typeVersion": 1,
+      "position": [
+        576,
+        -1312
+      ],
+      "id": "6eea6cba-c9a6-4346-b407-4ecc78f9ea47",
+      "name": "Scrape a url and get its content",
+      "retryOnFail": true,
+      "credentials": {
+        "firecrawlApi": {
+          "id": "meRG1GbeOt1oM4Aj",
+          "name": "Firecrawl account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=ou are a Professional AI Advertising Strategist and Creative Director specialized in crafting high-converting paid social campaigns for B2B and B2C brands.\n\nYour mission is to generate location-personalized ad copy and realistic photo-style image prompts strictly aligned with the brand’s real identity, tone, and offer.\n\n🏢 BRAND INFORMATION (Reference Data)\n\nUse this data as the single source of truth for all creative generation.\nNever invent or assume any information beyond what’s provided.\n\n{{ $json.data.json }}\n\n\nThis includes:\n\nBrand name\n\nProducts or services\n\nHeadline or tagline\n\nMain offer or unique value proposition\n\nKey features or benefits\n\nTarget audience\n\nCall-to-action (CTAs)\n\nPricing or offer details\n\nTone of voice\n\nColor palette or visual theme\n\nEmotional appeal or brand personality\n\n🧭 USER INPUT SETTINGS\n\nLocation: {{ $('Edit Fields').item.json.location }}\nAd Variations: {{ $('Edit Fields').item.json.ads_variations }}\nAspect Ratio: {{ $('Edit Fields').item.json.aspect_ratio }}\nLanding Page URL: {{ $('Edit Fields').item.json.landing_page_url }}\n\n🎯 OBJECTIVE\n\nGenerate {{ $('Edit Fields').item.json.ads_variations }} location-specific ad variations that include:\n\nHeadline\n\nPrimary Text (ad copy)\n\nCTA\n\nOverlay Text (on-image hook text)\n\nImage Prompt\n\nAspect Ratio\n\nLanding Page URL\n\nEach variation must:\n\nReflect the brand’s personality and color theme exactly.\n\nInclude the location in the headline or emotional tone.\n\nSound natural, persuasive, and locally relatable.\n\nMaintain 100% factual consistency with brand data.\n\n🖋️ AD COPY RULES\n\nHeadline must include the city name or a local cue.\n\nPrimary text: 2–3 sentences, emotional + benefit-driven, no fluff.\n\nCTA must come directly from brand CTAs — no new CTAs invented.\n\nLanguage must mirror the brand tone (from brand info).\n\nAvoid generic marketing clichés or vague buzzwords.\n\nUse simple, confident, human-sounding phrasing.\n\n🖼️ IMAGE PROMPT RULES\n\nYou generate photo-realistic, brand-consistent visual prompts.\nNever generate illustrations, renders, or AI-art-style visuals.\n\nRules:\n\nMust look 100% real and photographic (no digital art, cartoon, or CGI).\n\nReflect brand color palette, lighting, and mood from input.\n\nIntegrate local cues — landmarks, city vibes, or architecture.\n\nMatch emotional tone of ad copy (trust, growth, ambition, lifestyle, etc.).\n\nInclude camera framing, lighting, and environment details.\n\nMention on-image overlay text placement (for design automation).\n\nPreferred style keywords:\n“real photo”, “professional photography”, “natural daylight”, “cinematic lighting”, “depth of field”, “vibrant but realistic colors”, “brand color palette applied”.\n\n⚙️ GENERATION INSTRUCTIONS\n\nAlways read and analyze the full brand data first.\n\nExtract only factual, brand-approved information.\n\nGenerate ad copy + image prompts directly aligned with that info.\n\nProduce multiple variations per city (per ads_variations).\n\nReturn JSON output only, no markdown or commentary.\n\n❌ DO NOT\n\nFabricate product details, services, or offers.\n\nAdd generic descriptions or artistic interpretations.\n\nInclude emojis, hashtags, or markdown.\n\nRepeat text across variations.\n\nDeviate from brand tone or voice.\n\n✅ Final Rule:\nThe entire output must read as if a senior creative strategist at a top advertising agency wrote it — brand-consistent, data-driven, and emotionally persuasive.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        -1312
+      ],
+      "id": "520d5bfe-0556-46b1-be72-db2abbc0771b",
+      "name": "AI Agent",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        -1056
+      ],
+      "id": "4bad5523-93a0-46fc-88d5-13f3ab8c356d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "zxEbwk3FiF23nTHT",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- UNIVERSAL AI AGENT OUTPUT PARSER ---\n// Enhanced to detect nested JSON strings like { \"ads\": [...] }\n\n// 1️⃣ Get raw AI output safely\nconst raw =\n  $input.first().json.output ||\n  $input.first().json.text ||\n  $input.first().json.response ||\n  JSON.stringify($input.first().json) ||\n  '';\n\nconst cleaned = raw.replace(/\\r/g, '').trim();\nlet data = [];\n\n// 2️⃣ Try to detect nested JSON inside stringified object\ntry {\n  let parsed = JSON.parse(cleaned);\n\n  // If output contains \"ads\" key → unwrap it\n  if (parsed && parsed.ads && Array.isArray(parsed.ads)) {\n    data = parsed.ads;\n  } else if (Array.isArray(parsed)) {\n    data = parsed;\n  } else if (typeof parsed === 'object') {\n    data = [parsed];\n  }\n} catch (e) {\n  // 3️⃣ Try extracting JSON inside markdown fences\n  const match = cleaned.match(/```(?:json)?([\\s\\S]*?)```/i);\n  if (match) {\n    try {\n      let inner = JSON.parse(match[1].trim());\n      if (inner.ads && Array.isArray(inner.ads)) data = inner.ads;\n      else if (Array.isArray(inner)) data = inner;\n      else data = [inner];\n    } catch {}\n  }\n\n  // 4️⃣ As fallback: inline object extraction\n  if (data.length === 0) {\n    const inline = cleaned.match(/{[\\s\\S]*}/);\n    if (inline) {\n      try {\n        let inner = JSON.parse(inline[0]);\n        if (inner.ads && Array.isArray(inner.ads)) data = inner.ads;\n        else if (Array.isArray(inner)) data = inner;\n        else data = [inner];\n      } catch {}\n    }\n  }\n}\n\n// 5️⃣ Fallback if still empty\nif (data.length === 0) {\n  data = [{ raw_text: cleaned }];\n}\n\n// 6️⃣ Flatten nested objects for Google Sheets / Airtable\nfunction flatten(obj, prefix = '', res = {}) {\n  for (const [key, val] of Object.entries(obj)) {\n    const newKey = prefix ? `${prefix}_${key}` : key;\n    if (val && typeof val === 'object' && !Array.isArray(val)) {\n      flatten(val, newKey, res);\n    } else {\n      res[newKey] = Array.isArray(val) ? val.join(', ') : val;\n    }\n  }\n  return res;\n}\n\nconst finalOutput = data.map(item => ({ json: flatten(item) }));\n\nreturn finalOutput;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        -1312
+      ],
+      "id": "539a196d-203c-4a94-8ea1-7bf96d0e0b17",
+      "name": "Code in JavaScript",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-preview-image-generation",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-preview-image-generation"
+        },
+        "prompt": "={{ $json.image_prompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        -1312
+      ],
+      "id": "ab453a18-c27c-4b64-a8ea-965d9a4ef82f",
+      "name": "Generate an image",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "vWYeN86yQkuOGBXG",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.headline | replace(' ', '_') | slice(0, 50) }}_generated.png",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1HI0tMBK4hQOjyQM0WbBbnxNPbEyMePKb",
+          "mode": "list",
+          "cachedResultName": "meta ads images ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1HI0tMBK4hQOjyQM0WbBbnxNPbEyMePKb"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1824,
+        -1312
+      ],
+      "id": "b9a5c660-c24d-442c-b37e-ebf075e0de42",
+      "name": "Upload file",
+      "retryOnFail": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Klar8NSsZKQV442h",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1600,
+        -1312
+      ],
+      "id": "6fafcf4d-bba1-4a5f-bf37-d174f2a061cd",
+      "name": "Wait",
+      "webhookId": "a82ec1a8-4730-4f27-92d0-19448f1bd069"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2048,
+        -1312
+      ],
+      "id": "85c95b77-4627-4a6e-9ae5-5ed393274559",
+      "name": "Wait1",
+      "webhookId": "a68f4cc5-62e3-4570-bd41-cb983148d4fd"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s",
+          "mode": "list",
+          "cachedResultName": "meta ads ready",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "location": "={{ $('Code in JavaScript').item.json.location }}",
+            "headline": "={{ $('Code in JavaScript').item.json.headline }}",
+            "primary_text": "={{ $('Code in JavaScript').item.json.primary_text }}",
+            "cta": "={{ $('Code in JavaScript').item.json.cta }}",
+            "image_prompt": "={{ $('Code in JavaScript').item.json.image_prompt }}",
+            "aspect_ratio": "={{ $('Code in JavaScript').item.json.aspect_ratio }}",
+            "landing_page_url": "={{ $('Code in JavaScript').item.json.landing_page_url }}",
+            "image_url": "={{ $json.webViewLink }}"
+          },
+          "matchingColumns": [
+            "landing_page_url"
+          ],
+          "schema": [
+            {
+              "id": "location",
+              "displayName": "location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "headline",
+              "displayName": "headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "primary_text",
+              "displayName": "primary_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "image_prompt",
+              "displayName": "image_prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "aspect_ratio",
+              "displayName": "aspect_ratio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "landing_page_url",
+              "displayName": "landing_page_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "image_url",
+              "displayName": "image_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2272,
+        -1312
+      ],
+      "id": "8d60958e-7d23-4b8d-a983-6bd975ee229b",
+      "name": "Append row in sheet",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.imgbb.com/1/upload?key=6e03866d24cebff88d04730abddc8f96",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "={{ $json.direct_image_url }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image",
+              "value": "={{ $json.direct_image_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2944,
+        -1312
+      ],
+      "id": "ad50cdea-06bc-45b2-98e3-22f9076c7ba0",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v23.0",
+        "node": "=856477307545625",
+        "edge": "feed",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "message",
+                "value": "={{ $('Append row in sheet').item.json.headline }}\n\n\n{{ $('Append row in sheet').item.json.primary_text }}\n\n{{ $('Append row in sheet').item.json.cta }}: {{ $('Append row in sheet').item.json.landing_page_url }}"
+              },
+              {
+                "name": "link",
+                "value": "={{ $json.data.url }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        3392,
+        -1312
+      ],
+      "id": "55a93310-7f71-4d7a-bd45-9b640b0ff28c",
+      "name": "Facebook Graph API",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "sMI5OLYFXT6pNqBt",
+          "name": "Facebook Graph account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2496,
+        -1312
+      ],
+      "id": "74a26b38-eac9-4f23-8c35-0b5b87895c67",
+      "name": "Wait3",
+      "webhookId": "cdd3cb94-8a0a-447e-9d15-5f8b825893df"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop through all rows from Google Sheets\n// Assumes each row has a field called \"image_url\"\nconst output = [];\n\nfor (const item of $input.all()) {\n  const url = item.json.image_url;\n\n  // Try to extract the Google Drive file ID\n  const match = url.match(/\\/d\\/([a-zA-Z0-9_-]+)\\//);\n  const fileId = match ? match[1] : null;\n\n  // Skip rows without valid links\n  if (!fileId) {\n    output.push({ json: { ...item.json, direct_image_url: null, status: 'Invalid URL' } });\n    continue;\n  }\n\n  // Create the direct-access link\n  const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;\n\n  // Add it to the row data\n  output.push({\n    json: {\n      ...item.json,\n      direct_image_url: directUrl\n    }\n  });\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2720,
+        -1312
+      ],
+      "id": "dcb6f018-4230-4071-b0e6-73ea7cc89c9f",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3168,
+        -1312
+      ],
+      "id": "9ee91c56-ef51-4828-9073-3966c57133dd",
+      "name": "Wait2",
+      "webhookId": "cee1ab9a-d782-488a-839c-f05bacc4aad6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f475133a-180a-4093-9f14-f02a26da93ab",
+              "name": "user_input",
+              "value": "My brand name is TriVA. We sell AI marketing tools for small businesses. Target audience = B2B consultants and agencies. Tone = modern and energetic. Colors = blue and white. CTA = Book Demo. Create 3 ad variations for New York, Los Angeles and Austin.\nmy landing page url is : https://triva.global/\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        -880
+      ],
+      "id": "3a002764-bade-4227-9be2-edaa89e444f2",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional AI Advertising Strategist and Creative Director.\nYour task is to create complete ad creatives (copy + image prompt + overlay text) from the user’s written brief.\nThe user provides all brand context manually — you must not fetch or invent any data.\n\n🏢 BRAND INFORMATION\n\nThe user’s message contains everything you need — such as brand name, product/service, target audience, tone, color palette, CTA, and any offers.\nAnalyze the text carefully and extract all relevant context before creating the ad.\n\n🎯 OBJECTIVE\n\nGenerate high-converting, realistic, location-based ad variations that combine:\n\nAd Copy → headline, primary_text, CTA\n\nImage Prompt → a clear, photo-realistic scene aligned with brand theme\n\nOverlay Text → short on-image hook phrase that grabs attention\n\n⚙️ OUTPUT STRUCTURE\n\nReturn a JSON array where each object represents one variation:\n\n{\n  \"location\": \"\",\n  \"headline\": \"\",\n  \"primary_text\": \"\",\n  \"cta\": \"\",\n  \"overlay_text\": \"\",\n  \"image_prompt\": \"\",\n  \"aspect_ratio\": \"1:1\",\n  \"landing_page_url\": \"\"\n}\n\n🧠 RULES FOR AD COPY\n\nHeadline must include the city name or clear local cue.\n\nPrimary text: 2–3 sentences; emotional + benefit-driven.\n\nUse only CTAs given by the user; never invent new ones.\n\nKeep tone, emotion, and vocabulary consistent with the brand’s personality.\n\nAdd light local flavor (e.g., “New York energy”, “London style”).\n\nAvoid marketing clichés or repetition.\n\n🖼️ RULES FOR IMAGE PROMPTS\n\nYou are generating photo-realistic ad image prompts — no AI art, cartoon, or render style.\n\nEvery image must:\n\nLook real (photography style – not illustration or 3D).\n\nMatch the brand’s color palette, tone, and theme.\n\nIntegrate location-specific cues (landmarks, architecture, vibe).\n\nReflect the emotion and intent of the ad copy (trust, luxury, energy etc.).\n\nInclude details for lighting and composition (cinematic, natural light, depth of field).\n\nMention placement of overlay text (e.g., “top left corner in bold font”).\n\nForbidden: “AI art”, “digital painting”, “render”, “cartoon”, “3D”, “anime”.\n\nPreferred style keywords:\n“real photo”, “professional photography”, “cinematic lighting”, “natural daylight”, “depth of field”, “realistic colors”, “brand color palette applied”.\n\nhere the user input, please read it carefully and creat ethe output is outstanding:  {{ $json.user_input }}\n\n\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        -864
+      ],
+      "id": "c04ff800-964a-4c23-9320-dcf3eeaea2aa",
+      "name": "AI Agent1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        384,
+        -688
+      ],
+      "id": "9ade898e-1a1c-49a5-8995-3a4f13eefeab",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "zxEbwk3FiF23nTHT",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- UNIVERSAL AI AGENT OUTPUT PARSER ---\n// Enhanced to detect nested JSON strings like { \"ads\": [...] }\n\n// 1️⃣ Get raw AI output safely\nconst raw =\n  $input.first().json.output ||\n  $input.first().json.text ||\n  $input.first().json.response ||\n  JSON.stringify($input.first().json) ||\n  '';\n\nconst cleaned = raw.replace(/\\r/g, '').trim();\nlet data = [];\n\n// 2️⃣ Try to detect nested JSON inside stringified object\ntry {\n  let parsed = JSON.parse(cleaned);\n\n  // If output contains \"ads\" key → unwrap it\n  if (parsed && parsed.ads && Array.isArray(parsed.ads)) {\n    data = parsed.ads;\n  } else if (Array.isArray(parsed)) {\n    data = parsed;\n  } else if (typeof parsed === 'object') {\n    data = [parsed];\n  }\n} catch (e) {\n  // 3️⃣ Try extracting JSON inside markdown fences\n  const match = cleaned.match(/```(?:json)?([\\s\\S]*?)```/i);\n  if (match) {\n    try {\n      let inner = JSON.parse(match[1].trim());\n      if (inner.ads && Array.isArray(inner.ads)) data = inner.ads;\n      else if (Array.isArray(inner)) data = inner;\n      else data = [inner];\n    } catch {}\n  }\n\n  // 4️⃣ As fallback: inline object extraction\n  if (data.length === 0) {\n    const inline = cleaned.match(/{[\\s\\S]*}/);\n    if (inline) {\n      try {\n        let inner = JSON.parse(inline[0]);\n        if (inner.ads && Array.isArray(inner.ads)) data = inner.ads;\n        else if (Array.isArray(inner)) data = inner;\n        else data = [inner];\n      } catch {}\n    }\n  }\n}\n\n// 5️⃣ Fallback if still empty\nif (data.length === 0) {\n  data = [{ raw_text: cleaned }];\n}\n\n// 6️⃣ Flatten nested objects for Google Sheets / Airtable\nfunction flatten(obj, prefix = '', res = {}) {\n  for (const [key, val] of Object.entries(obj)) {\n    const newKey = prefix ? `${prefix}_${key}` : key;\n    if (val && typeof val === 'object' && !Array.isArray(val)) {\n      flatten(val, newKey, res);\n    } else {\n      res[newKey] = Array.isArray(val) ? val.join(', ') : val;\n    }\n  }\n  return res;\n}\n\nconst finalOutput = data.map(item => ({ json: flatten(item) }));\n\nreturn finalOutput;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        -880
+      ],
+      "id": "bb8fdfc0-8b97-4c78-b9c9-533766059595",
+      "name": "Code in JavaScript2",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-preview-image-generation",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-preview-image-generation"
+        },
+        "prompt": "={{ $json.image_prompt }} {{ $json.overlay_text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        928,
+        -880
+      ],
+      "id": "e04cba36-6f5a-4464-bc6e-65dbaecdc6bc",
+      "name": "Generate an image1",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "vWYeN86yQkuOGBXG",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.headline | replace(' ', '_') | slice(0, 50) }}_generated.png",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1HI0tMBK4hQOjyQM0WbBbnxNPbEyMePKb",
+          "mode": "list",
+          "cachedResultName": "meta ads images ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1HI0tMBK4hQOjyQM0WbBbnxNPbEyMePKb"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1376,
+        -880
+      ],
+      "id": "942dddc4-caf4-497e-ba93-1483f47159ee",
+      "name": "Upload file1",
+      "retryOnFail": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Klar8NSsZKQV442h",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1152,
+        -880
+      ],
+      "id": "fa3df27f-a801-4fe2-b9ee-32d9b3118767",
+      "name": "Wait4",
+      "webhookId": "a82ec1a8-4730-4f27-92d0-19448f1bd069"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1600,
+        -880
+      ],
+      "id": "90ca0502-a55c-4d53-8131-b9c6c4caca0f",
+      "name": "Wait5",
+      "webhookId": "a68f4cc5-62e3-4570-bd41-cb983148d4fd"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s",
+          "mode": "list",
+          "cachedResultName": "meta ads ready",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "location": "={{ $('Code in JavaScript2').item.json.location }}",
+            "headline": "={{ $('Code in JavaScript2').item.json.headline }}",
+            "primary_text": "={{ $('Code in JavaScript2').item.json.primary_text }}",
+            "cta": "={{ $('Code in JavaScript2').item.json.cta }}",
+            "image_prompt": "={{ $('Code in JavaScript2').item.json.image_prompt }}",
+            "aspect_ratio": "={{ $('Code in JavaScript2').item.json.aspect_ratio }}",
+            "landing_page_url": "={{ $('Code in JavaScript2').item.json.landing_page_url }}",
+            "image_url": "={{ $json.webViewLink }}"
+          },
+          "matchingColumns": [
+            "landing_page_url"
+          ],
+          "schema": [
+            {
+              "id": "location",
+              "displayName": "location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "headline",
+              "displayName": "headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "primary_text",
+              "displayName": "primary_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "image_prompt",
+              "displayName": "image_prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "aspect_ratio",
+              "displayName": "aspect_ratio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "landing_page_url",
+              "displayName": "landing_page_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "image_url",
+              "displayName": "image_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1824,
+        -880
+      ],
+      "id": "404c8784-935b-4927-88c1-63d415abb4ae",
+      "name": "Append row in sheet1",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.imgbb.com/1/upload?key=b91a330dffd40058dc18f6dcbf984d19",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "={{ $json.direct_image_url }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image",
+              "value": "={{ $json.direct_image_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2496,
+        -880
+      ],
+      "id": "13635286-05ff-40ff-afe6-6154811d5233",
+      "name": "HTTP Request1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v23.0",
+        "node": "=856477307545625",
+        "edge": "feed",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "message",
+                "value": "={{ $('Append row in sheet1').item.json.headline }}\n\n\n{{ $('Append row in sheet1').item.json.primary_text }}\n\n{{ $('Append row in sheet1').item.json.cta }}: {{ $('Append row in sheet1').item.json.landing_page_url }}"
+              },
+              {
+                "name": "link",
+                "value": "={{ $json.data.url }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        2944,
+        -880
+      ],
+      "id": "8f358b96-3bab-4245-aad4-2043e2d07017",
+      "name": "Facebook Graph API1",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "sMI5OLYFXT6pNqBt",
+          "name": "Facebook Graph account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2048,
+        -880
+      ],
+      "id": "fa58077a-9ef9-4ea7-87c1-37ed27757224",
+      "name": "Wait6",
+      "webhookId": "cdd3cb94-8a0a-447e-9d15-5f8b825893df"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop through all rows from Google Sheets\n// Assumes each row has a field called \"image_url\"\nconst output = [];\n\nfor (const item of $input.all()) {\n  const url = item.json.image_url;\n\n  // Try to extract the Google Drive file ID\n  const match = url.match(/\\/d\\/([a-zA-Z0-9_-]+)\\//);\n  const fileId = match ? match[1] : null;\n\n  // Skip rows without valid links\n  if (!fileId) {\n    output.push({ json: { ...item.json, direct_image_url: null, status: 'Invalid URL' } });\n    continue;\n  }\n\n  // Create the direct-access link\n  const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;\n\n  // Add it to the row data\n  output.push({\n    json: {\n      ...item.json,\n      direct_image_url: directUrl\n    }\n  });\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2272,
+        -880
+      ],
+      "id": "bcd0b39b-33d3-4feb-93c9-9f368defb239",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2720,
+        -880
+      ],
+      "id": "d7a63b89-d951-44c3-b400-f23839d1b2b6",
+      "name": "Wait7",
+      "webhookId": "cee1ab9a-d782-488a-839c-f05bacc4aad6"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- UNIVERSAL AI AGENT OUTPUT PARSER ---\n// Enhanced to detect nested JSON strings like { \"ads\": [...] }\n\n// 1️⃣ Get raw AI output safely\nconst raw =\n  $input.first().json.output ||\n  $input.first().json.text ||\n  $input.first().json.response ||\n  JSON.stringify($input.first().json) ||\n  '';\n\nconst cleaned = raw.replace(/\\r/g, '').trim();\nlet data = [];\n\n// 2️⃣ Try to detect nested JSON inside stringified object\ntry {\n  let parsed = JSON.parse(cleaned);\n\n  // If output contains \"ads\" key → unwrap it\n  if (parsed && parsed.ads && Array.isArray(parsed.ads)) {\n    data = parsed.ads;\n  } else if (Array.isArray(parsed)) {\n    data = parsed;\n  } else if (typeof parsed === 'object') {\n    data = [parsed];\n  }\n} catch (e) {\n  // 3️⃣ Try extracting JSON inside markdown fences\n  const match = cleaned.match(/```(?:json)?([\\s\\S]*?)```/i);\n  if (match) {\n    try {\n      let inner = JSON.parse(match[1].trim());\n      if (inner.ads && Array.isArray(inner.ads)) data = inner.ads;\n      else if (Array.isArray(inner)) data = inner;\n      else data = [inner];\n    } catch {}\n  }\n\n  // 4️⃣ As fallback: inline object extraction\n  if (data.length === 0) {\n    const inline = cleaned.match(/{[\\s\\S]*}/);\n    if (inline) {\n      try {\n        let inner = JSON.parse(inline[0]);\n        if (inner.ads && Array.isArray(inner.ads)) data = inner.ads;\n        else if (Array.isArray(inner)) data = inner;\n        else data = [inner];\n      } catch {}\n    }\n  }\n}\n\n// 5️⃣ Fallback if still empty\nif (data.length === 0) {\n  data = [{ raw_text: cleaned }];\n}\n\n// 6️⃣ Flatten nested objects for Google Sheets / Airtable\nfunction flatten(obj, prefix = '', res = {}) {\n  for (const [key, val] of Object.entries(obj)) {\n    const newKey = prefix ? `${prefix}_${key}` : key;\n    if (val && typeof val === 'object' && !Array.isArray(val)) {\n      flatten(val, newKey, res);\n    } else {\n      res[newKey] = Array.isArray(val) ? val.join(', ') : val;\n    }\n  }\n  return res;\n}\n\nconst finalOutput = data.map(item => ({ json: flatten(item) }));\n\nreturn finalOutput;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        928,
+        -448
+      ],
+      "id": "cc07b9a3-c944-40d9-9c95-463585fe8771",
+      "name": "Code in JavaScript4",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-exp-image-generation",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-exp-image-generation"
+        },
+        "prompt": "={{ $json.image_prompt }}",
+        "options": {
+          "binaryPropertyOutput": "data"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        -448
+      ],
+      "id": "c7bf2b2e-e94f-4184-a340-f1dd6e3c7225",
+      "name": "Generate an image2",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "vWYeN86yQkuOGBXG",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.headline | replace(' ', '_') | slice(0, 50) }}_generated.png",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1HI0tMBK4hQOjyQM0WbBbnxNPbEyMePKb",
+          "mode": "list",
+          "cachedResultName": "meta ads images ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1HI0tMBK4hQOjyQM0WbBbnxNPbEyMePKb"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1600,
+        -448
+      ],
+      "id": "5f753fab-26bf-4634-bb1f-7fa15808a8d7",
+      "name": "Upload file2",
+      "retryOnFail": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Klar8NSsZKQV442h",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1376,
+        -448
+      ],
+      "id": "4d1cb7ab-e17b-42df-93a6-65f5346d8df6",
+      "name": "Wait8",
+      "webhookId": "a82ec1a8-4730-4f27-92d0-19448f1bd069"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1824,
+        -448
+      ],
+      "id": "4d7e4354-03b2-4220-9a2c-9201271c71cb",
+      "name": "Wait9",
+      "webhookId": "a68f4cc5-62e3-4570-bd41-cb983148d4fd"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s",
+          "mode": "list",
+          "cachedResultName": "meta ads ready",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zguaZwaax6yNBbbTzaLE1WeHmHPbNs1wDPUgSsWwZ6s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "location": "={{ $('Code in JavaScript4').item.json.location }}",
+            "headline": "={{ $('Code in JavaScript4').item.json.headline }}",
+            "primary_text": "={{ $('Code in JavaScript4').item.json.primary_text }}",
+            "cta": "={{ $('Code in JavaScript4').item.json.cta }}",
+            "image_prompt": "={{ $('Code in JavaScript4').item.json.image_prompt }}",
+            "aspect_ratio": "={{ $('Code in JavaScript4').item.json.aspect_ratio }}",
+            "landing_page_url": "={{ $('Code in JavaScript4').item.json.landing_page_url }}",
+            "image_url": "={{ $json.webViewLink }}"
+          },
+          "matchingColumns": [
+            "landing_page_url"
+          ],
+          "schema": [
+            {
+              "id": "location",
+              "displayName": "location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "headline",
+              "displayName": "headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "primary_text",
+              "displayName": "primary_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "image_prompt",
+              "displayName": "image_prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "aspect_ratio",
+              "displayName": "aspect_ratio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "landing_page_url",
+              "displayName": "landing_page_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "image_url",
+              "displayName": "image_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2048,
+        -448
+      ],
+      "id": "c158da21-00f7-4149-997d-541d83e61831",
+      "name": "Append row in sheet2",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.imgbb.com/1/upload?key=b91a330dffd40058dc18f6dcbf984d19",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "={{ $json.direct_image_url }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image",
+              "value": "={{ $json.direct_image_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2720,
+        -448
+      ],
+      "id": "0212e77d-a3c0-4e1f-9fd2-953ca8914c3b",
+      "name": "HTTP Request2",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v23.0",
+        "node": "=856477307545625",
+        "edge": "feed",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "message",
+                "value": "={{ $('Append row in sheet2').item.json.headline }}\n\n\n{{ $('Append row in sheet2').item.json.primary_text }}\n\n{{ $('Append row in sheet2').item.json.cta }}: {{ $('Append row in sheet2').item.json.landing_page_url }}"
+              },
+              {
+                "name": "link",
+                "value": "={{ $json.data.url }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        3168,
+        -448
+      ],
+      "id": "9f7fcac2-14bc-4126-af1c-be014ad5a535",
+      "name": "Facebook Graph API2",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "sMI5OLYFXT6pNqBt",
+          "name": "Facebook Graph account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2272,
+        -448
+      ],
+      "id": "3b692db9-b538-4b60-a622-573d643ba591",
+      "name": "Wait10",
+      "webhookId": "cdd3cb94-8a0a-447e-9d15-5f8b825893df"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop through all rows from Google Sheets\n// Assumes each row has a field called \"image_url\"\nconst output = [];\n\nfor (const item of $input.all()) {\n  const url = item.json.image_url;\n\n  // Try to extract the Google Drive file ID\n  const match = url.match(/\\/d\\/([a-zA-Z0-9_-]+)\\//);\n  const fileId = match ? match[1] : null;\n\n  // Skip rows without valid links\n  if (!fileId) {\n    output.push({ json: { ...item.json, direct_image_url: null, status: 'Invalid URL' } });\n    continue;\n  }\n\n  // Create the direct-access link\n  const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;\n\n  // Add it to the row data\n  output.push({\n    json: {\n      ...item.json,\n      direct_image_url: directUrl\n    }\n  });\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2496,
+        -448
+      ],
+      "id": "8466bf9b-0643-480f-9c1a-bf60911adb7e",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2944,
+        -448
+      ],
+      "id": "2f470cd9-9883-494c-90f9-3ea94101c371",
+      "name": "Wait11",
+      "webhookId": "cee1ab9a-d782-488a-839c-f05bacc4aad6"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-lite"
+        },
+        "text": "what is this image? whats the colors, themes, what services or product in which have, you analyze this image for image variation prompt creating purpose ",
+        "imageUrls": "={{ $json['image url'] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        352,
+        -448
+      ],
+      "id": "157630fa-6f48-4872-bdb0-69dfa35d98b1",
+      "name": "Analyze an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "vWYeN86yQkuOGBXG",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9ca00226-f489-4c93-95d2-6959743acb91",
+              "name": "ads_image_url",
+              "value": "https://gameoverstore.co.uk/cdn/shop/files/BB_D50_Electric_Crimson_C_d34dceac-ce32-4244-a860-a06820dcc5a4_compressed_1800x1800.webp?v=1750403478",
+              "type": "string"
+            },
+            {
+              "id": "612bb159-eb81-4487-bf53-d07f7fb21a73",
+              "name": "landing_page_urls ",
+              "value": "1 https://preview--city-spotlight-clone.lovable.app/london\n\n2 https://preview--city-spotlight-clone.lovable.app/manchester\n\n3 https://preview--city-spotlight-clone.lovable.app/birmingham",
+              "type": "string"
+            },
+            {
+              "id": "7ffb5fa3-0584-4f5a-a16e-99338b3397cc",
+              "name": "aspect_ratio",
+              "value": "1:1",
+              "type": "string"
+            },
+            {
+              "id": "0b99d6e7-44ee-46f2-81a5-b8a0e5c0adde",
+              "name": "ads_variations",
+              "value": "per location based 2 ads ",
+              "type": "string"
+            },
+            {
+              "id": "5f2b673c-7d2a-485d-9cdf-598375c7f5e8",
+              "name": "brand _info",
+              "value": "my brand name gameover we give the product like bean bag and its accessories\nour target audience is gamers, gen z that intersted with bean bag\nour cta is shop now   ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -112,
+        -544
+      ],
+      "id": "a15364d7-b858-4615-a4fa-736d0ad0167d",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\n\n\n\n\nROLE:\nYou are an advanced AI Advertising Strategist and Visual Creative Director.\nYour task is to generate location-based ad variations using both the brand context and image analysis insights provided from the previous node (Gemini output).\n\nYou write ad copy and image prompts that keep full visual + emotional alignment with the analyzed image style — but you adapt text, emotion, and local flavor for each target location.\n\n📊 INPUTS:\n\nads variations:\n{{ $('Edit Fields2').item.json['ads variations'] }}\n\nImage Analysis Data:\n{{ $json.content.parts[0].text }}\n\nMapped Data (from Sheet or Workflow):\n\nBrand Info: \n{{ $('Edit Fields2').item.json['brand info'] }}\n\nLanding Page URLS with locations:\n{{ $('Edit Fields2').item.json['landing page urls '] }}\n\nAspect Ratio: \n{{ $('Edit Fields2').item.json['aspect ratio'] }}\n\n\n🎯 OBJECTIVE:\n\nUsing the image analysis, generate multiple ad variants that:\n\nMatch the visual tone, layout, and color style described in the image analysis.\n\nWrite high-converting ad copy consistent with the brand’s tone and audience.\n\nCreate new image prompts that replicate the analyzed image’s style (lighting, tone, color palette, mood, layout) — but customize content for each location.\n\nMaintain consistent brand voice while introducing localized relevance.\n\n🧩 OUTPUT FORMAT:\n\nReturn a clean JSON array with one entry per location:\n\n[\n  {\n    \"location\": \"London\",\n    \"headline\": \"Empower London Homes with Solar Innovation\",\n    \"primary_text\": \"London homeowners are switching to sustainable solar energy with GreenTech Solar — saving up to 60% on energy costs while protecting the planet.\",\n    \"cta\": \"Get Your Free Solar Quote\",\n    \"overlay_text\": \"Power London Sustainably\",\n    \"image_prompt\": \"real photo styled like analyzed image — a London townhouse with solar panels under soft natural daylight, cinematic lighting, brand color palette (green, white, gray), clear skies; overlay text 'Power London Sustainably' in clean typography\",\n    \"aspect_ratio\": \"1:1\",\n    \"landing_page_url\": \"https://greentechsolar.co.uk/london\"\n  }\n]\n\nand so on next\n\n💡 RULES:\n\nAd Copy Rules:\n\nUse the brand tone and target audience from brand info.\n\nUse insights from the image analysis to keep visual and emotional consistency.\n\nEach ad copy must sound localized (use the city name and cultural cues).\n\nCTAs must come only from brand-approved CTAs (don’t invent new ones).\n\nImage Prompt Rules:\n\nMust be real-photo style, not digital art.\n\nUse visual features mentioned in the Gemini analysis (lighting, color, layout).\n\nIntegrate the brand color palette naturally.\n\nInclude overlay text from overlay_text field, positioned aesthetically.\n\nAvoid:\n\nRepeating the same phrasing in every location.\n\nUsing generic buzzwords (“best service,” “premium quality,” etc.).\n\nMaking artistic or unrealistic renderings (always photo-realistic).\n\n\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        -448
+      ],
+      "id": "06643576-28c7-4475-8148-f8215d0b5dbc",
+      "name": "AI Agent2",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        576,
+        -176
+      ],
+      "id": "7e060386-dabf-4383-974c-5ea35bf7dbc5",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "zxEbwk3FiF23nTHT",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Scrape a url and get its content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape a url and get its content": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Generate an image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image1": {
+      "main": [
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file1": {
+      "main": [
+        [
+          {
+            "node": "Wait5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait4": {
+      "main": [
+        [
+          {
+            "node": "Upload file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait5": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Wait6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Wait7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait6": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait7": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Generate an image2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image2": {
+      "main": [
+        [
+          {
+            "node": "Wait8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file2": {
+      "main": [
+        [
+          {
+            "node": "Wait9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait8": {
+      "main": [
+        [
+          {
+            "node": "Upload file2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait9": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Wait10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Wait11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait10": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait11": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Analyze an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "75f73cda-7ecb-4b6f-a5fd-b22a8ce46862",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8d877f24dab153378d43f60d28c7e980ae4e85434aa4b7d3954a00e8675512c2"
+  },
+  "id": "xH5kThDf0JBW5DDb",
+  "tags": []
+}

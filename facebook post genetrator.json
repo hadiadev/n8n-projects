@@ -1,0 +1,559 @@
+{
+  "name": "facebook post genetrator",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f475133a-180a-4093-9f14-f02a26da93ab",
+              "name": "topic",
+              "value": "problems you feel in your practices system.",
+              "type": "string"
+            },
+            {
+              "id": "e162655a-90a4-42d5-889b-b1b4396001d6",
+              "name": "plateform",
+              "value": "facebook",
+              "type": "string"
+            },
+            {
+              "id": "4a57255e-a25d-419d-9705-e2b1021ad28b",
+              "name": "how_many_post",
+              "value": "1",
+              "type": "string"
+            },
+            {
+              "id": "53a3e7e2-2977-4d11-b8a8-98c0557dc67d",
+              "name": "orientations",
+              "value": "1:1",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        -320
+      ],
+      "id": "53e0d636-43b5-47b2-896c-47379ac7c357",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a social media content creator for GP Triage (https://gptriage.com/\n), an AI-powered healthcare triage system for UK GPs. Your task is to create short, catchy, problem-solution focused posts and captions, plus realistic, creative AI image prompts, for n8n automation.\n\nInput Fields:\n\nTopic: {{ $json.topic }}\n\nPlatform: {{ $json.plateform }} (only create posts for this platform)\n\nNumber of posts: {{ $json.how_many_post }} (create exactly this number)\n\nOrientation: {{ $json.orientations }} (mention in the image prompt so AI creates accordingly)\n\nRequirements:\n\nPost content:\n\nFocus on common problems in GP practices (appointments, wait times, staff workload).\n\nProvide solutions or benefits GP Triage offers (AI triage, efficient scheduling, patient safety, EHR integration, multilingual access).\n\nKeep short, human-readable, informative (2–3 sentences max).\n\nCaption:\n\nOne-line, catchy, engaging, readable by humans.\n\nFits the platform tone:\n\nFacebook: slightly informative + human touch\n\nInstagram: emojis + fun + engaging\n\nLinkedIn: professional, clear, B2B tone\n\nX: concise, hook + trending hashtags\n\nAI Image Prompt:\n\nOrientation as per input ({{ $json.orientations }}) Orientation mention it in every prompt.\nThe image prompt that is created should be very detailed. According to the topic, images related to the topic should be created and the images should be very creative, realistic style, it should not be messy at all. Everything should be clear. Okay, so the image that is to be written should be very detailed so that any AI tool that reads over this image prompte can do so by understanding it well. the images results must be real and high resolution and real life style, not blureness and messy results.\n\nHashtags:\n\nInclude relevant, trending hashtags: healthcare, NHS, GP, AI, patient care, EHR, digital health, clinic workflow.\n\n\nImportant Notes:\n\nnot used the dashes and stars and any ai generated stuff, using only clean and human feel like results. give ready to post stuff.\n\nFocus on human readability, short sentences, relatable problems & solutions.\n\nImage prompt must create realistic and enjoyable visuals, not overly professional or technical.\n\nAvoid promotional fluff; focus on education, awareness, and engagement.\n\nDo not create extra posts; only generate exactly the number specified in input.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        -320
+      ],
+      "id": "484fd3d6-3d0c-425f-becc-1d719eeaafd0",
+      "name": "AI Agent1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        -96
+      ],
+      "id": "cef4cc2b-9e56-4022-8876-209c8cb212ed",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "zxEbwk3FiF23nTHT",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-preview-image-generation",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-preview-image-generation"
+        },
+        "prompt": "={{ $json.image_prompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        928,
+        -320
+      ],
+      "id": "f1149767-2578-40e5-b201-8868a8b001bc",
+      "name": "Generate an image1",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "vWYeN86yQkuOGBXG",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "=image.png",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1HI0tMBK4hQOjyQM0WbBbnxNPbEyMePKb",
+          "mode": "list",
+          "cachedResultName": "meta ads images ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1HI0tMBK4hQOjyQM0WbBbnxNPbEyMePKb"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1376,
+        -320
+      ],
+      "id": "c0e9dc85-2b98-4d57-8c31-b73a743962ed",
+      "name": "Upload file1",
+      "retryOnFail": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Klar8NSsZKQV442h",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1152,
+        -320
+      ],
+      "id": "3190ea4c-81c3-40f5-b81f-5d7d59e9e3e9",
+      "name": "Wait4",
+      "webhookId": "a82ec1a8-4730-4f27-92d0-19448f1bd069"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1600,
+        -320
+      ],
+      "id": "0c8c776a-8e40-4a92-bc3f-d95b6a7f912f",
+      "name": "Wait5",
+      "webhookId": "a68f4cc5-62e3-4570-bd41-cb983148d4fd"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1HTiKfCnWTsvglN2IKgdBgvK-g1DeER6GJDRkKMhGFVg",
+          "mode": "list",
+          "cachedResultName": "GP POST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HTiKfCnWTsvglN2IKgdBgvK-g1DeER6GJDRkKMhGFVg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HTiKfCnWTsvglN2IKgdBgvK-g1DeER6GJDRkKMhGFVg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "topic ": "={{ $('Edit Fields1').item.json.topic }}",
+            "post ": "={{ $('json parse').item.json.post }}",
+            "caption": "={{ $('json parse').item.json.caption }}",
+            "hash tags": "={{ $('json parse').item.json.hashtags }}",
+            "image prompt": "={{ $('json parse').item.json.image_prompt }}"
+          },
+          "matchingColumns": [
+            "landing_page_url"
+          ],
+          "schema": [
+            {
+              "id": "topic ",
+              "displayName": "topic ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "post ",
+              "displayName": "post ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "caption",
+              "displayName": "caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "hash tags",
+              "displayName": "hash tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "image prompt",
+              "displayName": "image prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1824,
+        -320
+      ],
+      "id": "d1851d5a-d9d1-4d28-97b7-abda53a56385",
+      "name": "Append row in sheet1",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Slz0EBfG3IGuMWs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.imgbb.com/1/upload?key=b91a330dffd40058dc18f6dcbf984d19",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "={{ $('Upload file1').item.json.webContentLink }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image",
+              "value": "={{ $('Upload file1').item.json.webContentLink }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2272,
+        -320
+      ],
+      "id": "eba50572-0fcf-41c9-8a90-ccf311c956fe",
+      "name": "HTTP Request1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v23.0",
+        "node": "=856477307545625",
+        "edge": "feed",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "message",
+                "value": "={{ $('Append row in sheet1').item.json.caption }}\n\n{{ $('Append row in sheet1').item.json['post '] }}\n\nmore information?\n\nhttps://gptriage.com/\n\n{{ $('Append row in sheet1').item.json['hash tags'] }}\n\n"
+              },
+              {
+                "name": "link",
+                "value": "={{ $json.data.image.url }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        -320
+      ],
+      "id": "02261a8e-7d9a-43ff-b54f-7a3937806348",
+      "name": "Facebook Graph API1",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "sMI5OLYFXT6pNqBt",
+          "name": "Facebook Graph account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2048,
+        -320
+      ],
+      "id": "dd037f01-e562-4d1d-bd94-a6d6acfdd4a7",
+      "name": "Wait6",
+      "webhookId": "cdd3cb94-8a0a-447e-9d15-5f8b825893df"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2496,
+        -320
+      ],
+      "id": "cadb82ec-104b-4a64-a324-7799eaace3cb",
+      "name": "Wait7",
+      "webhookId": "cee1ab9a-d782-488a-839c-f05bacc4aad6"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- UNIVERSAL AI AGENT OUTPUT PARSER (Flexible Field Extraction) ---\n\nconst raw =\n  $input.first().json.output ||\n  $input.first().json.text ||\n  $input.first().json.response ||\n  $input.first().json.raw_text ||\n  JSON.stringify($input.first().json) ||\n  '';\n\nconst cleaned = raw.replace(/\\r/g, '').trim();\nlet data = [];\n\n// Safe JSON parse helper\nfunction safeParse(str) {\n  try { return JSON.parse(str); } \n  catch { return null; }\n}\n\n// 1️⃣ Try direct JSON parse\nlet parsed = safeParse(cleaned);\nif (parsed) {\n  if (Array.isArray(parsed)) data = parsed;\n  else if (typeof parsed === 'object') data = [parsed];\n}\n\n// 2️⃣ If no JSON, fallback: parse raw text fields using flexible regex\nif (data.length === 0) {\n  const postMatch = cleaned.match(/(?:\\*\\*Post Content\\*\\*|Post|Content):?\\s*([\\s\\S]*?)(?:\\n\\n\\*\\*Caption|\\n\\nCaption|$)/i);\n  const captionMatch = cleaned.match(/(?:\\*\\*Caption\\*\\*|Caption):?\\s*([\\s\\S]*?)(?:\\n\\n\\*\\*AI Image Prompt|\\n\\nAI Image Prompt|$)/i);\n  const imageMatch = cleaned.match(/(?:\\*\\*AI Image Prompt[^\\*]*\\*\\*|AI Image Prompt):?\\s*([\\s\\S]*?)(?:\\n\\n\\*\\*Hashtags|\\n\\nHashtags|$)/i);\n  const hashtagsMatch = cleaned.match(/(?:\\*\\*Hashtags\\*\\*|Hashtags):?\\s*([\\s\\S]*)$/i);\n\n  const post = postMatch ? postMatch[1].trim() : '';\n  const caption = captionMatch ? captionMatch[1].trim() : '';\n  const image_prompt = imageMatch ? imageMatch[1].trim() : '';\n  const hashtags = hashtagsMatch ? hashtagsMatch[1].trim() : '';\n\n  data = [{\n    post,\n    caption,\n    image_prompt,\n    hashtags\n  }];\n}\n\n// 3️⃣ Flatten nested objects for Sheets/Airtable\nfunction flatten(obj, prefix = '', res = {}) {\n  for (const [key, val] of Object.entries(obj)) {\n    const newKey = prefix ? `${prefix}_${key}` : key;\n    if (val && typeof val === 'object' && !Array.isArray(val)) {\n      flatten(val, newKey, res);\n    } else if (Array.isArray(val)) {\n      const arrStr = val.map(v => (typeof v === 'object' ? JSON.stringify(v) : v)).join(', ');\n      res[newKey] = arrStr;\n    } else {\n      res[newKey] = val;\n    }\n  }\n  return res;\n}\n\n// 4️⃣ Apply flatten\nconst finalOutput = data.map(item => ({ json: flatten(item) }));\n\nreturn finalOutput;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        -320
+      ],
+      "id": "074a4dc3-7129-48fa-93f7-018c52669073",
+      "name": "json parse",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -320
+      ],
+      "id": "4c35ea6e-39f2-48aa-b153-29533e05e8b8",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "json parse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image1": {
+      "main": [
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file1": {
+      "main": [
+        [
+          {
+            "node": "Wait5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait4": {
+      "main": [
+        [
+          {
+            "node": "Upload file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait5": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Wait6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Wait7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait7": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "json parse": {
+      "main": [
+        [
+          {
+            "node": "Generate an image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9293ccb7-7679-4fae-9b61-bf8ad18cb567",
+  "meta": {
+    "instanceId": "8d877f24dab153378d43f60d28c7e980ae4e85434aa4b7d3954a00e8675512c2"
+  },
+  "id": "VV32rxWIm6CJW0GJ",
+  "tags": []
+}
