@@ -1,0 +1,791 @@
+{
+  "name": "GOOGLE SEARCH SEO Content Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3296,
+        2384
+      ],
+      "id": "9b2379a3-413b-4450-9ae3-28887975beac",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-5-20250929"
+        },
+        "options": {
+          "maxTokensToSample": 4096,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        976,
+        2416
+      ],
+      "id": "13b7b0c9-e47f-4be9-b5e3-fbc615db8b3e",
+      "name": "Claude Model - Analysis1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "B8XXfyJ6aMSEOnnK",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-5-20250929"
+        },
+        "options": {
+          "maxTokensToSample": 4096,
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        1488,
+        2432
+      ],
+      "id": "b37c214d-33e9-4b35-a2c2-2cd1ac9c3af9",
+      "name": "Claude Model - Outline1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "B8XXfyJ6aMSEOnnK",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-5-20250929"
+        },
+        "options": {
+          "maxTokensToSample": 8192,
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        1952,
+        2384
+      ],
+      "id": "3669351c-8a4e-41b0-9212-8a7352a0b2e8",
+      "name": "Claude Model - Writer1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "B8XXfyJ6aMSEOnnK",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# trigger and adding keyword (you also using the google search query format)\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/components/sticky-notes/",
+        "height": 576,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3440,
+        2096
+      ],
+      "typeVersion": 1,
+      "id": "69afd673-bf8c-4fa5-b286-fcc6ac1e86ac",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# handles Google search and content research \n\nIt:\n\nPerforms a live SERP search to collect real Google results\n\nExtracts top-ranking pages, featured snippets, People Also Ask, related searches, and AI overviews\n\nSelects and analyzes top authoritative websites\n\nScrapes page content safely and evaluates:\n\nTitles and heading structures (H1–H3)\n\nContent depth and quality signals\n\nKeyword usage and topical relevance\n\nIdentifies search intent, contextual patterns, and important entities\n\nThis logic ensures that all research is based on real, current search data, not assumptions, forming a strong foundation before content creation begins.\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "height": 1072,
+        "width": 2480,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2208,
+        1712
+      ],
+      "typeVersion": 1,
+      "id": "8991c908-2d12-4652-b741-b47420f330e3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Analyzing content based on search, creating an outlines based on Analyzing content, and then writing the article Based on outline content.\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "height": 880,
+        "width": 1392,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        720,
+        1808
+      ],
+      "typeVersion": 1,
+      "id": "ca9dbbd9-1a8e-476f-a03b-1670b824cac8",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# convert content to google docs \n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "height": 496,
+        "width": 1040,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2752,
+        2032
+      ],
+      "typeVersion": 1,
+      "id": "9c27a533-458d-4a0f-8d8c-3f75749a6c69",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.topUrls }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "Accept",
+              "value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {
+              "maxRedirects": 6
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1008,
+        2208
+      ],
+      "id": "8b6a396c-d59d-48fd-91de-b6853a2a9993",
+      "name": "Scrape Websites",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "topUrls",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1440,
+        2208
+      ],
+      "id": "addf78ee-cd8d-4d59-93b7-987b50539ecd",
+      "name": "Split URLs"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.keyword }}"
+            },
+            {
+              "name": "location",
+              "value": "={{ $json.location }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2064,
+        2224
+      ],
+      "id": "dd11266a-8103-4155-9a19-f58544684f13",
+      "name": "SERP API Call",
+      "credentials": {
+        "serpApi": {
+          "id": "f5L5iKEAqoahmEE6",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nif (items.length === 0) {\n  return [{ json: { error: \"No input data received\" } }];\n}\n\nconst serpData = items[0].json;\nconst keyword = $(\"Input Keyword\").item.json.keyword;\n\nconst output = {\n  keyword: keyword,\n  serpFeatures: {\n    organicResults: [],\n    featuredSnippet: null,\n    peopleAlsoAsk: [],\n    relatedSearches: [],\n    aiOverview: null,\n    topStories: [],\n    richSnippets: []\n  },\n  metadata: {\n    totalResults: serpData.search_information?.total_results || 0,\n    searchTime: serpData.search_information?.time_taken_displayed || \"0 sec\"\n  },\n  topUrls: []\n};\n\nif (Array.isArray(serpData.organic_results)) {\n  output.serpFeatures.organicResults = serpData.organic_results\n    .slice(0, 10)\n    .map((result, index) => ({\n      position: index + 1,\n      title: result.title || \"\",\n      link: result.link || \"\",\n      displayedLink: result.displayed_link || result.link || \"\",\n      snippet: result.snippet || \"\",\n      richSnippet: result.rich_snippet || null,\n      sitelinks: result.sitelinks || null\n    }));\n\n  output.topUrls = output.serpFeatures.organicResults\n    .slice(0, 5)\n    .map(r => r.link)\n    .filter(link => link && typeof link === \"string\" && link.startsWith(\"http\"));\n}\n\nif (serpData.answer_box) {\n  output.serpFeatures.featuredSnippet = {\n    type: serpData.answer_box.type || \"unknown\",\n    title: serpData.answer_box.title || \"\",\n    snippet: serpData.answer_box.snippet || serpData.answer_box.answer || \"\",\n    link: serpData.answer_box.link || \"\",\n    list: serpData.answer_box.list || null\n  };\n}\n\nif (Array.isArray(serpData.related_questions)) {\n  output.serpFeatures.peopleAlsoAsk = serpData.related_questions.map(q => ({\n    question: q.question || \"\",\n    snippet: q.snippet || \"\",\n    title: q.title || \"\",\n    link: q.link || \"\"\n  }));\n}\n\nif (Array.isArray(serpData.related_searches)) {\n  output.serpFeatures.relatedSearches = serpData.related_searches\n    .map(s => s.query || s)\n    .filter(Boolean);\n}\n\nif (serpData.ai_overview) {\n  output.serpFeatures.aiOverview = {\n    text: serpData.ai_overview.text || serpData.ai_overview.answer || \"\",\n    sources: Array.isArray(serpData.ai_overview.sources) ? serpData.ai_overview.sources : []\n  };\n}\n\nif (Array.isArray(serpData.top_stories)) {\n  output.serpFeatures.topStories = serpData.top_stories.map(story => ({\n    title: story.title || \"\",\n    link: story.link || \"\",\n    source: story.source || \"\",\n    date: story.date || \"\"\n  }));\n}\n\noutput.serpFeatures.richSnippets = output.serpFeatures.organicResults\n  .filter(r => r.richSnippet)\n  .map(r => ({\n    url: r.link,\n    type: r.richSnippet.type || \"unknown\",\n    data: r.richSnippet\n  }));\n\nreturn [{ json: output }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1776,
+        2224
+      ],
+      "id": "57925132-fa3f-42bf-81ae-4e2d98c5a2bc",
+      "name": "Extract SERP Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "aa2e99b8-c6c4-45c3-b10d-c6cb0a2ef41f",
+              "leftValue": "={{ $json.topUrls.length }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1696,
+        2544
+      ],
+      "id": "64380362-2533-4b6a-a1d1-fcbdc8c322a3",
+      "name": "Validate SERP Results"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1216,
+        2208
+      ],
+      "id": "a6610068-20a0-4b04-a34e-ebd9836046d8",
+      "name": "Rate Limit Delay",
+      "webhookId": "25e8dfd4-7583-43d3-9574-7666fbd240b6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "filter-success",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "any",
+                "operation": "notExists"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -752,
+        2208
+      ],
+      "id": "6ce3fa39-f975-408e-b96f-d75f53c4ad5c",
+      "name": "Filter Scrape Errors"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "title"
+            },
+            {
+              "key": "h1",
+              "cssSelector": "h1",
+              "returnArray": true
+            },
+            {
+              "key": "h2",
+              "cssSelector": "h2",
+              "returnArray": true
+            },
+            {
+              "key": "h3",
+              "cssSelector": "h3",
+              "returnArray": true
+            },
+            {
+              "key": "bodyContent",
+              "cssSelector": "body",
+              "skipSelectors": "script, style, nav, footer, header, aside, iframe, noscript"
+            },
+            {
+              "key": "metaDescription",
+              "cssSelector": "meta[name='description']",
+              "returnValue": "attribute"
+            },
+            {
+              "key": "metaKeywords",
+              "cssSelector": "meta[name='keywords']",
+              "returnValue": "attribute"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -512,
+        2208
+      ],
+      "id": "8c1f4606-08c4-4fed-a21c-5bdb61f62c16",
+      "name": "Extract HTML Content"
+    },
+    {
+      "parameters": {
+        "html": "={{ $json.bodyContent }}",
+        "destinationKey": "markdown",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        2208
+      ],
+      "id": "079a69f4-ad53-46c3-8359-d264307d46c7",
+      "name": "Convert to Markdown"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst url = $('Split URLs').item.json.topUrls;\n\nconst h1 = Array.isArray(item.h1) ? item.h1 : (item.h1 ? [item.h1] : []);\nconst h2 = Array.isArray(item.h2) ? item.h2 : (item.h2 ? [item.h2] : []);\nconst h3 = Array.isArray(item.h3) ? item.h3 : (item.h3 ? [item.h3] : []);\n\nconst headingStructure = {\n  h1: h1,\n  h2: h2,\n  h3: h3\n};\n\nconst markdown = item.markdown || '';\nconst wordCount = markdown.split(/\\s+/).filter(w => w.length > 0).length;\n\nconst stopWords = new Set([\n  'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i',\n  'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',\n  'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',\n  'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their',\n  'what', 'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which',\n  'go', 'me', 'when', 'make', 'can', 'like', 'time', 'no', 'just',\n  'him', 'know', 'take', 'people', 'into', 'year', 'your', 'good',\n  'some', 'could', 'them', 'see', 'other', 'than', 'then', 'now',\n  'look', 'only', 'come', 'its', 'over', 'think', 'also', 'back',\n  'after', 'use', 'two', 'how', 'our', 'work', 'first', 'well',\n  'way', 'even', 'new', 'want', 'because', 'any', 'these', 'give',\n  'day', 'most', 'us', 'is', 'was', 'are', 'been', 'has', 'had',\n  'were', 'said', 'did', 'having', 'may', 'should', 'am', 'being'\n]);\n\nconst words = markdown.toLowerCase().match(/\\b[a-z]{4,}\\b/g) || [];\nconst filteredWords = words.filter(word => !stopWords.has(word));\n\nconst wordFreq = {};\nfilteredWords.forEach(word => {\n  wordFreq[word] = (wordFreq[word] || 0) + 1;\n});\n\nconst topKeywords = Object.entries(wordFreq)\n  .filter(([word, freq]) => freq >= 3)\n  .sort((a, b) => b[1] - a[1])\n  .slice(0, 15)\n  .map(([word, freq]) => ({ word, frequency: freq }));\n\nconst contentPreview = markdown.substring(0, 800);\n\nreturn {\n  url: url,\n  title: item.title || 'No title found',\n  metaDescription: item.metaDescription || '',\n  metaKeywords: item.metaKeywords || '',\n  headingStructure: headingStructure,\n  wordCount: wordCount,\n  topKeywords: topKeywords,\n  contentPreview: contentPreview\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        2208
+      ],
+      "id": "8007b2b1-6f58-47a7-a114-92b301519632",
+      "name": "Analyze Page Structure"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -16,
+        2528
+      ],
+      "id": "1f6b6abf-2244-46ea-a9f9-d3877ae14dfc",
+      "name": "Merge with SERP Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "keyword-input",
+              "name": "keyword",
+              "value": "best skills 2026",
+              "type": "string"
+            },
+            {
+              "id": "location",
+              "name": "location",
+              "value": "global",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3040,
+        2384
+      ],
+      "id": "51f50c1b-d089-4728-ac72-45c8d3a9f574",
+      "name": "Input Keyword"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert SEO content strategist. Analyze the provided SERP data and competitor content.\n\nTARGET KEYWORD: {{ $('Input Keyword').item.json.keyword }}\n\n=== SERP FEATURES ===\n{{ JSON.stringify($('Extract SERP Data').item.json.serpFeatures, null, 2) }}\n\n=== COMPETITOR PAGES ANALYZED ===\nTotal URLs scraped: {{ $('Analyze Page Structure').all().length }}\n\n{{ $('Analyze Page Structure').all().map((page, i) => `\nCOMPETITOR ${i + 1}:\nURL: ${page.json.url}\nTitle: ${page.json.title}\nMeta Description: ${page.json.metaDescription}\nWord Count: ${page.json.wordCount}\nH1 Tags: ${JSON.stringify(page.json.headingStructure.h1)}\nH2 Tags: ${JSON.stringify(page.json.headingStructure.h2)}\nH3 Tags: ${JSON.stringify(page.json.headingStructure.h3)}\nTop Keywords: ${page.json.topKeywords.slice(0, 10).map(k => k.word).join(', ')}\nContent Preview: ${page.json.contentPreview}\n---`).join('\\n') }}\n\n=== YOUR TASK ===\nProvide detailed JSON analysis with this EXACT structure:\n\n{\n  \"contentAnalysis\": {\n    \"searchIntent\": {\n      \"primary\": \"informational|commercial|transactional|navigational\",\n      \"secondary\": [\"additional intent types\"],\n      \"userGoals\": [\"what users want to achieve\"]\n    },\n    \"topicClusters\": {\n      \"mainTopics\": [\"primary topics covered by top-ranking pages\"],\n      \"subtopics\": [\"specific subtopics to address\"],\n      \"perspectives\": [\"different angles competitors take\"]\n    },\n    \"semanticKeywords\": {\n      \"primaryTerms\": [\"main keywords found across pages\"],\n      \"lsiKeywords\": [\"latent semantic indexing keywords\"],\n      \"entityMentions\": [\"important entities/brands/concepts\"]\n    },\n    \"contentPatterns\": {\n      \"commonHeadings\": [\"H2/H3 patterns across competitors\"],\n      \"averageWordCount\": 0,\n      \"averageH2Count\": 0,\n      \"commonStructure\": \"description of how competitors organize content\"\n    },\n    \"contentGaps\": {\n      \"missingTopics\": [\"topics not well covered\"],\n      \"uniqueOpportunities\": [\"angles to differentiate\"],\n      \"questionsThatNeedAnswers\": [\"from PAA or implied by content\"]\n    },\n    \"serpFeatureOptimization\": {\n      \"hasFeaturedSnippet\": true,\n      \"featuredSnippetFormat\": \"paragraph|list|table\",\n      \"paaQuestions\": [\"People Also Ask questions\"],\n      \"optimizationTips\": [\"specific recommendations\"]\n    }\n  }\n}\n\nReturn ONLY valid JSON, no markdown code blocks or explanations.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        832,
+        2128
+      ],
+      "id": "e04203b3-8f11-4c7b-bf5f-f42c37e2da61",
+      "name": "AI Content Analysis",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert content outline creator. Create a detailed SEO content outlines.\n\nTARGET KEYWORD: {{ $('Input Keyword').item.json.keyword }}\n\nCONTENT ANALYSIS:\n{{ $('AI Content Analysis').item.json.text }}\n{{ $json.text }}\nYOUR TASK:\nCreate a comprehensive content outlines in this EXACT JSON format:\n\n{\n  \"outline\": {\n    \"title\": {\n      \"main\": \"Primary SEO-optimized title with keyword\",\n      \"alternatives\": [\"Alternative title 1\", \"Alternative title 2\"]\n    },\n    \"metaDescription\": \"155-160 character meta description with keyword and CTA\",\n    \"introduction\": {\n      \"hook\": \"Compelling opening sentence\",\n      \"context\": \"2-3 sentences of background\",\n      \"thesis\": \"Main point/promise of the article\",\n      \"estimatedWordCount\": 150\n    },\n    \"sections\": [\n      {\n        \"heading\": \"H2 Heading (descriptive, keyword-relevant)\",\n        \"purpose\": \"What this section accomplishes\",\n        \"keyPoints\": [\"Point 1\", \"Point 2\", \"Point 3\"],\n        \"semanticKeywords\": [\"related terms to include naturally\"],\n        \"estimatedWordCount\": 400,\n        \"subsections\": [\n          {\n            \"heading\": \"H3 Subheading\",\n            \"keyPoints\": [\"Specific point\"],\n            \"estimatedWordCount\": 200\n          }\n        ]\n      }\n    ],\n    \"conclusion\": {\n      \"summary\": \"Key takeaways recap\",\n      \"cta\": \"Call to action\",\n      \"estimatedWordCount\": 150\n    },\n    \"faqSection\": [\n      {\n        \"question\": \"Question from PAA or user intent\",\n        \"answerBrief\": \"1-2 sentence answer outline\"\n      }\n    ],\n    \"targetMetrics\": {\n      \"totalWordCount\": 2500,\n      \"readingLevel\": \"8th-9th grade\",\n      \"primaryKeywordDensity\": \"1-1.5%\",\n      \"h2Count\": 6,\n      \"h3Count\": 12\n    }\n  }\n}\n\nREQUIREMENTS:\n1. Include 5-8 main H2 sections\n2. Each H2 should have 2-3 H3 subsections\n3. Address all search intents from analysis\n4. Cover competitor content gaps\n5. Natural keyword usage (avoid stuffing)\n6. Structure for featured snippet optimization\n\nReturn ONLY the JSON, no explanations or markdown.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1312,
+        2128
+      ],
+      "id": "b1ac8e11-9c0f-482f-aa51-0969a4419422",
+      "name": "Create Content Outline",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert SEO content writer creating publication-ready articles.\nbu using following data:\nTARGET KEYWORD: \n{{ $('Input Keyword').item.json.keyword }}\nCONTENT OUTLINE:\n{{ $('Create Content Outline').item.json.text }}\n{{ $json.text }}\nWRITING STANDARDS:\n\n1. PRIMARY GOAL: Satisfy search intent fully. Users should not need to search again.\n\n2. STRUCTURE:\n   - ONE H1 (title with keyword)\n   - Use exact headings from outline\n   - Follow H1 → H2 → H3 hierarchy\n   - Short paragraphs (2-4 sentences)\n\n3. KEYWORD USAGE:\n   - Primary keyword in: title, first 100 words, 2-3 H2s, conclusion\n   - Natural density 1-1.5%\n   - Include semantic keywords from outline\n   - NO keyword stuffing\n\n4. READABILITY:\n   - Target grade level: 8-9\n   - Mix sentence lengths: short (7-12 words), medium (15-20), long (25+)\n   - Use active voice (80%+)\n   - Simple, clear language\n   - Avoid jargon unless explained\n\n5. AVOID AI DETECTION:(follow strictly)\n      NO: never ever used the big dashes(follow strictly)\n   ❌ NO: \"In today's world\", \"It's no secret\", \"In conclusion\"\n   ❌ NO: Excessive em-dashes or semicolons\n   ❌ NO: Starting multiple sentences the same way\n   ✅ YES: Varied sentence structures\n   ✅ YES: Contractions (it's, you're, we'll)\n   ✅ YES: Occasional fragments for emphasis\n   ✅ YES: Conversational yet authoritative tone\n\n6. CONTENT QUALITY:\n   - Include specific examples and data\n   - Use analogies for complex concepts\n   - Address reader pain points directly\n   - Actionable takeaways\n   - Original insights, not generic statements\n\n7. FORMATTING (MARKDOWN):\n   - Clear heading hierarchy: # H1, ## H2, ### H3\n   - **Bold** for key terms (sparingly)\n   - Lists for steps/features\n   - NO placeholder text like [Insert Example]\n\n8. STRUCTURE:\n   - Introduction (follow outline)\n   - Body sections (follow outline exactly)\n   - FAQ section (answer each question in 2-3 sentences)\n   - Conclusion (summarize + CTA)\n     must add the question ansewers at the end of the article (strictly follow this) \n\n9. TONE:\n   - Professional but conversational\n   - Confident and helpful\n   - Natural, human voice\n   - Subtle humor where appropriate\n\n10. LENGTH: Match outline's target word count (±10%)\n\nCRITICAL: This content must be complete, publication-ready, and indistinguishable from human-written content.\n\nWrite the complete article now in Markdown format.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1776,
+        2128
+      ],
+      "id": "a9555348-7db7-4f8a-b6be-a3d8b9253720",
+      "name": "Write SEO Content",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "https://docs.google.com/document/d/1IWg0VUkKxmJep0tsBM0l0G9oYDFfeHyacx10ollpiuk/edit?tab=t.0",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        3104,
+        2272
+      ],
+      "id": "2ebbb81a-0f16-48a8-b5df-9e563144592c",
+      "name": "Update Google Document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "VDkJawje5H6w0Sr2",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Configure Credentials\n>Import Workflow\n1. Copy the \"GOOGLE SEARCH SEO Content Generator\" file\n2. In n8n: Workflows → Import from File\n\n>>SerpAPI:\n1. Enter your API key from serpapi.com\n\n\n>>Anthropic agent node:\n1. Add Credential → \"claude API\"\n\n>>Google Docs:\n1. Add Credential \n\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "height": 416,
+        "width": 736,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -4272,
+        1760
+      ],
+      "typeVersion": 1,
+      "id": "ccb34761-68f1-4018-bc81-ae515ae3daaa",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Input Keyword",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Model - Analysis1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Content Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Model - Outline1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Content Outline",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Model - Writer1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Write SEO Content",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Websites": {
+      "main": [
+        [
+          {
+            "node": "Filter Scrape Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split URLs": {
+      "main": [
+        [
+          {
+            "node": "Rate Limit Delay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SERP API Call": {
+      "main": [
+        [
+          {
+            "node": "Extract SERP Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract SERP Data": {
+      "main": [
+        [
+          {
+            "node": "Validate SERP Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate SERP Results": {
+      "main": [
+        [
+          {
+            "node": "Split URLs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge with SERP Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rate Limit Delay": {
+      "main": [
+        [
+          {
+            "node": "Scrape Websites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Scrape Errors": {
+      "main": [
+        [
+          {
+            "node": "Extract HTML Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract HTML Content": {
+      "main": [
+        [
+          {
+            "node": "Convert to Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Markdown": {
+      "main": [
+        [
+          {
+            "node": "Analyze Page Structure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Page Structure": {
+      "main": [
+        [
+          {
+            "node": "Merge with SERP Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge with SERP Data": {
+      "main": [
+        [
+          {
+            "node": "AI Content Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Input Keyword": {
+      "main": [
+        [
+          {
+            "node": "SERP API Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Content Analysis": {
+      "main": [
+        [
+          {
+            "node": "Create Content Outline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Content Outline": {
+      "main": [
+        [
+          {
+            "node": "Write SEO Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write SEO Content": {
+      "main": [
+        [
+          {
+            "node": "Update Google Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Google Document": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7e7d5db7-6584-4589-a7fd-550cacff53e8",
+  "meta": {
+    "instanceId": "2fd23d86d1039be3b0cbc4f4bdf8fc2eebf77bca808818da6b0d5f92a0c181ba"
+  },
+  "id": "Yy2Gc421CHuFJXKT",
+  "tags": []
+}
